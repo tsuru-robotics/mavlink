@@ -10,8 +10,6 @@ install*
 share/
 __pycache__
 pymavlink/generator/C/
-pymavlink/generator/C/
-pymavlink/generator/python/
 pymavlink/generator/python/
 apidocs/
 pymavlink/generator/message_definitions
@@ -30,3 +28,4 @@ include/
 include/mavlink/v1.0
 .idea
 /.vscode
+/generated/
