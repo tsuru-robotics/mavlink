@@ -9,6 +9,9 @@
       <entry value="1" name="FMU_TM_FLAGS_TIME_VALID">
         <description>The field time contains valid data.</description>
       </entry>
+      <entry value="2" name="FMU_TM_FLAGS_POS_VALID">
+        <description>The field time contains valid data.</description>
+      </entry>
     </enum>
 
   </enums>
@@ -24,8 +27,8 @@
       <field type="int32_t" name="lon" units="degE7">Longitude, expressed</field>
       <field type="int32_t" name="alt" units="mm">Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.</field>
       <field type="uint8_t" name="flight_state" enum="UTM_FLIGHT_STATE">Flight state</field>
-      <field type="uint8_t" name="rtcm_rate_ch0">Number of rtcm packets per second (wifi)</field>
-      <field type="uint8_t" name="rtcm_rate_ch1">Number of rtcm packets per second (lora)</field>
+      <field type="uint8_t" name="rtcm_rate_ch0" units="Hz">Rate of RTCM messages being received by WiFi</field>
+      <field type="uint8_t" name="rtcm_rate_ch1" units="Hz">Rate of RTCM messages being received by LoRa</field>
       <field type="uint8_t" name="flags" enum="FMU_TM_FLAGS" display="bitmask">Bitwise OR combination of the data available flags.</field>
     </message>
   </messages>
