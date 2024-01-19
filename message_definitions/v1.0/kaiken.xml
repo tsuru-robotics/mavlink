@@ -10,8 +10,12 @@
         <description>The field time contains valid data.</description>
       </entry>
       <entry value="2" name="FMU_TM_FLAGS_POS_VALID">
-        <description>The field time contains valid data.</description>
+        <description>The fields lat, lon and hdg contain valid data.</description>
       </entry>
+      <entry value="3" name="FMU_TM_FLAGS_ALT_VALID">
+        <description>The field alt contains valid data.</description>
+      </entry>
+
     </enum>
 
   </enums>

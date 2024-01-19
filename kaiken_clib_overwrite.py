@@ -2,6 +2,7 @@
 
 from argparse import ArgumentParser
 import fnmatch
+import sys
 
 line_filter = ['#define MAVLINK_MSG_ID_FMU_TM_CRC']
 
@@ -11,15 +12,19 @@ if __name__ == '__main__':
     parser.add_argument("-d", dest="destination", help="destination path", required=True)
     args = parser.parse_args()
 
-    filename = f'{args.destination}/mavlink_msg_fmu_tm.h'
-
     # Read in the file
-    with open(filename, 'r') as file:
-        lines = file.readlines()
-        for line in lines:
-            for lf in line_filter:
-                if fnmatch.fnmatch(line, f'{lf} *'):
-                    lines[lines.index(line)] = f"{lf} 0\n"
+    filename = f'{args.destination}/mavlink_msg_fmu_tm.h'
+    try:
+        file = open(filename, 'r')
+    except OSError:
+        print("Could not open/read file:", filename)
+        sys.exit()
+
+    lines = file.readlines()
+    for line in lines:
+        for lf in line_filter:
+            if fnmatch.fnmatch(line, f'{lf} *'):
+                lines[lines.index(line)] = f"{lf} 0\n"
 
     # Write the file out again
     with open(filename, 'w') as file:
