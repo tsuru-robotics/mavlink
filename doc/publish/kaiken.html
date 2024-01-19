@@ -1,0 +1,181 @@
+<html>
+ <body>
+  <p>
+   <strong>MAVLink Include Files:</strong>
+   <a href="development.md">development.xml</a>
+  </p>
+  <p>
+   <strong>MAVLink Include Files:</strong>
+   <a href="ardupilotmega.md">ardupilotmega.xml</a>
+  </p>
+  <h2>MAVLink Protocol Version</h2>
+  <p>The current MAVLink version is 2.3. The minor version numbers (after the dot) range from 1-255.</p>
+  <h2 id="enums">MAVLink Type Enumerations</h2>
+  <h3 id="FMU_TM_FLAGS">FMU_TM_FLAGS</h3>
+  <p>
+   <a href="#enums">
+    [Enum]
+   </a>Flags for FMU TM report.</p>
+  <table class="sortable">
+   <thead>
+    <tr>
+     <th>Value</th>
+     <th>Field Name</th>
+     <th>Description</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr id="FMU_TM_FLAGS_TIME_VALID">
+     <td>1</td>
+     <td>
+      <a href="#FMU_TM_FLAGS_TIME_VALID">FMU_TM_FLAGS_TIME_VALID</a>
+     </td>
+     <td>The field time contains valid data.</td>
+    </tr>
+    <tr id="FMU_TM_FLAGS_POS_VALID">
+     <td>2</td>
+     <td>
+      <a href="#FMU_TM_FLAGS_POS_VALID">FMU_TM_FLAGS_POS_VALID</a>
+     </td>
+     <td>The fields lat, lon and hdg contain valid data.</td>
+    </tr>
+    <tr id="FMU_TM_FLAGS_ALT_VALID">
+     <td>3</td>
+     <td>
+      <a href="#FMU_TM_FLAGS_ALT_VALID">FMU_TM_FLAGS_ALT_VALID</a>
+     </td>
+     <td>The field alt contains valid data.</td>
+    </tr>
+   </tbody>
+  </table>
+  <a id="MAV_CMD">
+  </a>
+  <h2 id="mav_commands">MAVLink Commands (<a href="#mav_commands">MAV_CMD</a>)</h2>
+  <blockquote class="alert alert-info clearfix">
+   <strong class="fa fa-2x fa-edit">
+   </strong>
+   <p>MAVLink commands (<a href="#mav_commands">MAV_CMD</a>) and messages are different! These commands define the values of up to 7 parameters that are packaged INSIDE specific messages used in the Mission Protocol and Command Protocol. Use commands for actions in missions or if you need acknowledgment and/or retry logic from a request. Otherwise use messages.</p>
+  </blockquote>
+  <h2 id="messages">MAVLink Messages</h2>
+  <h3 id="FMU_TM">FMU_TM (<a href="#FMU_TM">
+    #11100
+   </a>
+   )
+  </h3>
+  <p>
+   <a href="#messages">
+    [Message]
+   </a>
+   <strong>
+    (MAVLink 2)
+   </strong>Kaiken FMU telemetry.</p>
+  <table class="sortable">
+   <thead>
+    <tr>
+     <th>Field Name</th>
+     <th>Type</th>
+     <th>Units</th>
+     <th>Values</th>
+     <th>Description</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td>time</td>
+     <td>uint64_t</td>
+     <td>us</td>
+     <td>
+     </td>
+     <td>Time of applicability of position (microseconds since UNIX epoch).</td>
+    </tr>
+    <tr>
+     <td>satellites_visible</td>
+     <td>uint8_t</td>
+     <td>
+     </td>
+     <td>
+     </td>
+     <td>Number of satellites visible. If unknown, set to UINT8_MAX.</td>
+    </tr>
+    <tr>
+     <td>fix_type</td>
+     <td>uint8_t</td>
+     <td>
+     </td>
+     <td>
+      <a href="#GPS_FIX_TYPE">GPS_FIX_TYPE</a>
+     </td>
+     <td>GPS fix type.</td>
+    </tr>
+    <tr>
+     <td>hdg</td>
+     <td>uint16_t</td>
+     <td>cdeg</td>
+     <td>
+     </td>
+     <td>Vehicle heading (yaw angle), 0.0..359.99 degrees. If unknown, set to: UINT16_MAX.</td>
+    </tr>
+    <tr>
+     <td>lat</td>
+     <td>int32_t</td>
+     <td>degE7</td>
+     <td>
+     </td>
+     <td>Latitude, expressed</td>
+    </tr>
+    <tr>
+     <td>lon</td>
+     <td>int32_t</td>
+     <td>degE7</td>
+     <td>
+     </td>
+     <td>Longitude, expressed</td>
+    </tr>
+    <tr>
+     <td>alt</td>
+     <td>int32_t</td>
+     <td>mm</td>
+     <td>
+     </td>
+     <td>Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.</td>
+    </tr>
+    <tr>
+     <td>flight_state</td>
+     <td>uint8_t</td>
+     <td>
+     </td>
+     <td>
+      <a href="#UTM_FLIGHT_STATE">UTM_FLIGHT_STATE</a>
+     </td>
+     <td>Flight state</td>
+    </tr>
+    <tr>
+     <td>rtcm_rate_ch0</td>
+     <td>uint8_t</td>
+     <td>Hz</td>
+     <td>
+     </td>
+     <td>Rate of RTCM messages being received by WiFi</td>
+    </tr>
+    <tr>
+     <td>rtcm_rate_ch1</td>
+     <td>uint8_t</td>
+     <td>Hz</td>
+     <td>
+     </td>
+     <td>Rate of RTCM messages being received by LoRa</td>
+    </tr>
+    <tr>
+     <td>flags</td>
+     <td>uint8_t</td>
+     <td>
+     </td>
+     <td>
+      <a href="#FMU_TM_FLAGS">FMU_TM_FLAGS</a>
+     </td>
+     <td>Bitwise OR combination of the data available flags.</td>
+    </tr>
+   </tbody>
+  </table>
+ </body>
+</html>

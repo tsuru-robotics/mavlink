@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Generate html for Kaiken dialect
+cd doc && python3 mavlink_gitbook.py
+mkdir -p publish
+cp messages/_html/kaiken.html publish
+cd ../
+
 # Generate C-lib
 python3 -m pymavlink.tools.mavgen --lang=C --wire-protocol=2.0 --output=generated/mavlink_kaiken_v2 message_definitions/v1.0/kaiken.xml
 # Overwrite message ID in generated C-lib
