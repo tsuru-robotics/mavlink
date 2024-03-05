@@ -18,13 +18,35 @@
       <entry value="8" name="FMU_TM_FLAGS_ALT_GPS">
         <description>0x08 GPS height is being fused as a primary height reference.</description>
       </entry>
-
+      <entry value="16" name="FMU_TM_FLAGS_PREARM_CHECK">
+        <description>0x10 pre-arm check status. Always true when armed</description>
+      </entry>
     </enum>
-
+    <enum name="FMU_COMPONENT_STATUS" bitmask="true">
+      <description>These encode the sensors whose status is sent as part of the FMU_TM message.</description>
+      <entry value="1" name="FMU_COMPONENT_STATUS_GYRO">
+        <description>0x01 gyros (both instances)</description>
+      </entry>
+      <entry value="2" name="FMU_COMPONENT_STATUS_ACCEL">
+        <description>0x02 accelerometers (both instances)</description>
+      </entry>
+      <entry value="4" name="FMU_COMPONENT_STATUS_MAG">
+        <description>0x04 magnetometer</description>
+      </entry>
+      <entry value="8" name="FMU_COMPONENT_STATUS_BARO">
+        <description>0x08 barometer</description>
+      </entry>
+      <entry value="16" name="FMU_COMPONENT_STATUS_GPS">
+        <description>0x10 GPS</description>
+      </entry>
+      <entry value="32" name="FMU_COMPONENT_STATUS_BATTERY">
+        <description>0x20 Battery</description>
+      </entry>
+    </enum>
   </enums>
   <messages>
     <!-- Messages specifically designated for the Kaiken autopilot -->
-    <message id="11101" name="FMU_TM">
+    <message id="11102" name="FMU_TM">
       <description>Kaiken FMU telemetry.</description>
       <field type="uint64_t" name="time" units="us">Time of applicability of position (microseconds since UNIX epoch).</field>
       <field type="uint8_t" name="satellites_visible">Number of satellites visible. If unknown, set to UINT8_MAX.</field>
@@ -34,9 +56,14 @@
       <field type="int32_t" name="lon" units="degE7">Longitude, expressed</field>
       <field type="int32_t" name="alt" units="mm">Altitude (MSL). Note that virtually all GPS modules provide both WGS84 and MSL.</field>
       <field type="uint8_t" name="flight_state" enum="UTM_FLIGHT_STATE">Flight state</field>
-      <field type="uint8_t" name="rtcm_rate_ch0" units="Hz">Rate of RTCM messages being received by WiFi</field>
-      <field type="uint8_t" name="rtcm_rate_ch1" units="Hz">Rate of RTCM messages being received by LoRa</field>
-      <field type="uint8_t" name="flags" enum="FMU_TM_FLAGS" display="bitmask">Bitwise OR combination of the data available flags.</field>
+      <field type="uint8_t" name="rtcm_rate_wifi" units="HzE2">Rate of RTCM messages being received by WiFi</field>
+      <field type="uint8_t" name="rtcm_rate_lora" units="HzE2">Rate of RTCM messages being received by LoRa</field>
+      <field type="uint8_t" name="flags" enum="FMU_TM_FLAGS" display="bitmask" print_format="0x%04x">Bitmap showing TM flags. Value of 0: not present. Value of 1: present.</field>
+      <field type="uint8_t" name="component_present" enum="FMU_COMPONENT_STATUS" display="bitmask" print_format="0x%04x">Bitmap showing which onboard components are present. Value of 0: not present. Value of 1: present.</field>
+      <field type="uint8_t" name="component_health" enum="FMU_COMPONENT_STATUS" display="bitmask" print_format="0x%04x">Bitmap showing which onboard components are operational. Value of 0: not present. Value of 1: present.</field>
+      <field type="uint16_t" name="voltage_battery" units="mV" invalid="UINT16_MAX">Battery voltage, UINT16_MAX: Voltage not sent by autopilot</field>
+      <field type="int16_t" name="current_battery" units="cA" invalid="-1">Battery current, -1: Current not sent by autopilot</field>
+      <field type="int8_t" name="battery_remaining" units="%" invalid="-1">Battery energy remaining, -1: Battery remaining energy not sent by autopilot</field>
     </message>
   </messages>
 </mavlink>

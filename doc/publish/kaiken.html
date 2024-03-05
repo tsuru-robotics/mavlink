@@ -53,6 +53,71 @@
      </td>
      <td>0x08 GPS height is being fused as a primary height reference.</td>
     </tr>
+    <tr id="FMU_TM_FLAGS_PREARM_CHECK">
+     <td>16</td>
+     <td>
+      <a href="#FMU_TM_FLAGS_PREARM_CHECK">FMU_TM_FLAGS_PREARM_CHECK</a>
+     </td>
+     <td>0x10 pre-arm check status. Always true when armed</td>
+    </tr>
+   </tbody>
+  </table>
+  <h3 id="FMU_COMPONENT_STATUS">FMU_COMPONENT_STATUS</h3>
+  <p>
+   <a href="#enums">
+    [Enum]
+   </a>These encode the sensors whose status is sent as part of the <a href="#FMU_TM">FMU_TM</a> message.</p>
+  <table class="sortable">
+   <thead>
+    <tr>
+     <th>Value</th>
+     <th>Field Name</th>
+     <th>Description</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr id="FMU_COMPONENT_STATUS_GYRO">
+     <td>1</td>
+     <td>
+      <a href="#FMU_COMPONENT_STATUS_GYRO">FMU_COMPONENT_STATUS_GYRO</a>
+     </td>
+     <td>0x01 gyros (both instances)</td>
+    </tr>
+    <tr id="FMU_COMPONENT_STATUS_ACCEL">
+     <td>2</td>
+     <td>
+      <a href="#FMU_COMPONENT_STATUS_ACCEL">FMU_COMPONENT_STATUS_ACCEL</a>
+     </td>
+     <td>0x02 accelerometers (both instances)</td>
+    </tr>
+    <tr id="FMU_COMPONENT_STATUS_MAG">
+     <td>4</td>
+     <td>
+      <a href="#FMU_COMPONENT_STATUS_MAG">FMU_COMPONENT_STATUS_MAG</a>
+     </td>
+     <td>0x04 magnetometer</td>
+    </tr>
+    <tr id="FMU_COMPONENT_STATUS_BARO">
+     <td>8</td>
+     <td>
+      <a href="#FMU_COMPONENT_STATUS_BARO">FMU_COMPONENT_STATUS_BARO</a>
+     </td>
+     <td>0x08 barometer</td>
+    </tr>
+    <tr id="FMU_COMPONENT_STATUS_GPS">
+     <td>16</td>
+     <td>
+      <a href="#FMU_COMPONENT_STATUS_GPS">FMU_COMPONENT_STATUS_GPS</a>
+     </td>
+     <td>0x10 GPS</td>
+    </tr>
+    <tr id="FMU_COMPONENT_STATUS_BATTERY">
+     <td>32</td>
+     <td>
+      <a href="#FMU_COMPONENT_STATUS_BATTERY">FMU_COMPONENT_STATUS_BATTERY</a>
+     </td>
+     <td>0x20 Battery</td>
+    </tr>
    </tbody>
   </table>
   <a id="MAV_CMD">
@@ -65,7 +130,7 @@
   </blockquote>
   <h2 id="messages">MAVLink Messages</h2>
   <h3 id="FMU_TM">FMU_TM (<a href="#FMU_TM">
-    #11101
+    #11102
    </a>
    )
   </h3>
@@ -157,17 +222,17 @@
      <td>Flight state</td>
     </tr>
     <tr>
-     <td>rtcm_rate_ch0</td>
+     <td>rtcm_rate_wifi</td>
      <td>uint8_t</td>
-     <td>Hz</td>
+     <td>HzE2</td>
      <td>
      </td>
      <td>Rate of RTCM messages being received by WiFi</td>
     </tr>
     <tr>
-     <td>rtcm_rate_ch1</td>
+     <td>rtcm_rate_lora</td>
      <td>uint8_t</td>
-     <td>Hz</td>
+     <td>HzE2</td>
      <td>
      </td>
      <td>Rate of RTCM messages being received by LoRa</td>
@@ -180,7 +245,53 @@
      <td>
       <a href="#FMU_TM_FLAGS">FMU_TM_FLAGS</a>
      </td>
-     <td>Bitwise OR combination of the data available flags.</td>
+     <td>Bitmap showing TM flags. Value of 0: not present. Value of 1: present.</td>
+    </tr>
+    <tr>
+     <td>component_present</td>
+     <td>uint8_t</td>
+     <td>
+     </td>
+     <td>
+      <a href="#FMU_COMPONENT_STATUS">FMU_COMPONENT_STATUS</a>
+     </td>
+     <td>Bitmap showing which onboard components are present. Value of 0: not present. Value of 1: present.</td>
+    </tr>
+    <tr>
+     <td>component_health</td>
+     <td>uint8_t</td>
+     <td>
+     </td>
+     <td>
+      <a href="#FMU_COMPONENT_STATUS">FMU_COMPONENT_STATUS</a>
+     </td>
+     <td>Bitmap showing which onboard components are operational. Value of 0: not present. Value of 1: present.</td>
+    </tr>
+    <tr>
+     <td>voltage_battery</td>
+     <td>uint16_t</td>
+     <td>mV</td>
+     <td>
+     </td>
+     <td>Battery voltage, UINT16_MAX: Voltage not sent by autopilot</td>
+    </tr>
+    <tr>
+     <td>current_battery</td>
+     <td>int16_t</td>
+     <td>cA</td>
+     <td>
+     </td>
+     <td>Battery current, -1: Current not sent by autopilot</td>
+    </tr>
+    <tr>
+     <td>battery_remaining</td>
+     <td>int8_t</td>
+     <td>
+      %
+     </td>
+     <td>
+     </td>
+     <td>Battery energy remaining, -1: Battery remaining energy not sent by autopilot</td>
     </tr>
    </tbody>
   </table>
