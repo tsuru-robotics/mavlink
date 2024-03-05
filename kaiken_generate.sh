@@ -29,7 +29,7 @@ python ./kaiken_mavutil_overwrite.py -d ${pymavlink_path}
 python -m pymavlink.tools.mavgen --lang=WLua --wire-protocol=2.0 --output=generated/mavlink_kaiken_v2 message_definitions/v1.0/kaiken.xml
 
 # Copy Lua script
-if [ -z ${WIRESHARK_PLUGIN_FOLDER+x} ]
+if [ -z "${WIRESHARK_PLUGIN_FOLDER+x}" ]
 then
 	echo Copying mavlink_kaiken_v2.lua to Wireshark plugin folder $WIRESHARK_PLUGIN_FOLDER
 	sudo /bin/cp -rf generated/mavlink_kaiken_v2.lua $WIRESHARK_PLUGIN_FOLDER/mavlink_kaiken_v2.lua
