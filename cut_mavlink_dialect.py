@@ -2,6 +2,7 @@
 
 import os
 import re
+import argparse
 import configparser
 from enum import Enum, auto
 from typing import Union, Tuple
@@ -107,14 +108,38 @@ class DialectParser:
 
 
 if __name__ == '__main__':
+    arg_parser = argparse.ArgumentParser(
+        prog='Cut Dialect',
+        description='Create new dialect file with only messages from the white list',
+    )
+    arg_parser.add_argument(
+        '-p',
+        '--cuted_dialect_path',
+        type=str,
+        help='a directory path to the dialect file. Required.',
+        required=True,
+    )
+    arg_parser.add_argument(
+        '-c',
+        '--config_path',
+        type=str,
+        nargs='?',
+        default='cut_dialect_config.ini',
+        help='a path to the config file. Default: cut_dialect_config.ini',
+    )
     config = configparser.ConfigParser()
-    # config.read(os.path.join(os.path.dirname(__file__), 'cut_dialect_config.ini'))
-    config.read('cut_dialect_config.ini')
+    args = arg_parser.parse_args()
+
+    CUTED_DIALECT_DIR = os.path.dirname(args.cuted_dialect_path)
+    assert os.path.exists(CUTED_DIALECT_DIR), f'Directory "{CUTED_DIALECT_DIR}" does not exist'
+    assert os.path.exists(args.config_path), f'File "{args.config_path}" does not exist'
+
+    config.read(args.config_path)
 
     dialect_parser = DialectParser(config.get('GENERAL', 'white_msg_list').split())
 
     with open(config.get('GENERAL', 'orig_dialect_file_path'), 'r', encoding='utf-8') as orig_dialect:
-        with open(config.get('GENERAL', 'cuted_dialect_file_path'), 'w', encoding='utf-8') as cuted_dialect:
+        with open(f'{CUTED_DIALECT_DIR}/kaiken.py', 'w', encoding='utf-8') as cuted_dialect:
             for line in orig_dialect:
                 if not dialect_parser.is_usefull(line):
                     continue
