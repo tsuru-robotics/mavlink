@@ -131,7 +131,8 @@ if __name__ == '__main__':
     args = arg_parser.parse_args()
 
     CUTED_DIALECT_DIR = os.path.dirname(args.cuted_dialect_path)
-    assert os.path.exists(CUTED_DIALECT_DIR), f'Directory "{CUTED_DIALECT_DIR}" does not exist'
+    if not os.path.exists(CUTED_DIALECT_DIR):
+        os.makedirs(CUTED_DIALECT_DIR)
     assert os.path.exists(args.config_path), f'File "{args.config_path}" does not exist'
 
     config.read(args.config_path)
