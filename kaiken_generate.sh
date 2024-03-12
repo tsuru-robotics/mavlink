@@ -48,6 +48,12 @@ python ./kaiken_pylib_overwrite.py -d ${pymavlink_path}/dialects/v20
 # Fix mavutil.py
 python ./kaiken_mavutil_overwrite.py -d ${pymavlink_path}
 
+# Generate cuted kaiken dialect
+# with only whitelist messages
+echo "Generating cuted kaiken dialect"
+python ./cut_mavlink_dialect.py -p ./build/
+echo "Cuted kaiken dialect generated"
+
 # Generate lib for Wireshark
 python -m pymavlink.tools.mavgen --lang=WLua --wire-protocol=2.0 --output=generated/mavlink_kaiken_v2 message_definitions/v1.0/kaiken.xml
 
