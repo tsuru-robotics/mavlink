@@ -1,5 +1,28 @@
 #!/bin/sh
 
+Help()
+{
+   # Show Help
+   echo "This script generates:"
+   echo "- C-lib for the Kaiken dialect."
+   echo "- Python-lib for the full Kaiken dialect."
+   echo "- Cuted kaiken dialect and put it into build folder."
+   echo "- html documentation for the Kaiken dialect."
+   echo "- Wireshark plugin folder"
+   echo
+   echo "Syntax: kaiken_generate.sh [-h]"
+   echo "-h     Print this Help"
+
+}
+
+while getopts ":h" option; do
+   case $option in
+      h) # display help
+         Help
+         exit;;
+   esac
+done
+
 # Generate html for Kaiken dialect
 cd doc
 python mavlink_gitbook.py
