@@ -127,6 +127,13 @@ if __name__ == '__main__':
         default='cut_dialect_config.ini',
         help='a path to the config file. Default: cut_dialect_config.ini',
     )
+    arg_parser.add_argument(
+        '-i',
+        '--input_dialect_file',
+        type=str,
+        required=True,
+        help='a path to the input dialect config file',
+    )
     config = configparser.ConfigParser()
     args = arg_parser.parse_args()
 
@@ -139,8 +146,8 @@ if __name__ == '__main__':
 
     dialect_parser = DialectParser(config.get('GENERAL', 'white_msg_list').split())
 
-    with open(config.get('GENERAL', 'orig_dialect_file_path'), 'r', encoding='utf-8') as orig_dialect:
-        with open(f'{CUTED_DIALECT_DIR}/kaiken.py', 'w', encoding='utf-8') as cuted_dialect:
+    with open(args.input_dialect_file, 'r', encoding='utf-8') as orig_dialect:
+        with open(f'{CUTED_DIALECT_DIR}/kaiken_minimal.py', 'w', encoding='utf-8') as cuted_dialect:
             for line in orig_dialect:
                 if not dialect_parser.is_usefull(line):
                     continue

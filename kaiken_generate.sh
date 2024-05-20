@@ -4,11 +4,11 @@ Help()
 {
    # Show Help
    echo "This script generates:"
-   echo "- C-lib for the Kaiken dialect."
-   echo "- Python-lib for the full Kaiken dialect."
-   echo "- Cuted kaiken dialect and put it into build folder."
-   echo "- html documentation for the Kaiken dialect."
-   echo "- Wireshark plugin folder"
+   echo "- C-lib for the Kaiken dialect (/generated/mavlink_kaiken_v2)"
+   echo "- Python-lib for the full Kaiken dialect (<system pymavlink folder>/dialects/v20/kaiken.py)"
+   echo "- Cuted kaiken dialect (/generated/kaiken_minimal.py) using whitelist from /cut_dialect_config.ini"
+   echo "- html documentation for the Kaiken dialect (/doc/publish/kaikem.html)"
+   echo "- Wireshark plugin (/generated/mavlink_kaiken_v2.lua) and saves it to Wireshark Plugin folder by default"
    echo
    echo "Syntax: kaiken_generate.sh [-h]"
    echo "-h     Print this Help"
@@ -51,18 +51,23 @@ python ./kaiken_mavutil_overwrite.py -d ${pymavlink_path}
 # Generate cuted kaiken dialect
 # with only whitelist messages
 echo "Generating cuted kaiken dialect"
-python ./cut_mavlink_dialect.py -p ./build/
+python ./cut_mavlink_dialect.py -i ${pymavlink_path}/dialects/v20/kaiken.py -p ./generated/
 echo "Cuted kaiken dialect generated"
 
 # Generate lib for Wireshark
 python -m pymavlink.tools.mavgen --lang=WLua --wire-protocol=2.0 --output=generated/mavlink_kaiken_v2 message_definitions/v1.0/kaiken.xml
 
+# Add trusted UDP ports
+sed -i -e '$a\''udp_dissector_table:add(14650, mavlink_proto)' generated/mavlink_kaiken_v2.lua
+sed -i -e '$a\''udp_dissector_table:add(15550, mavlink_proto)' generated/mavlink_kaiken_v2.lua
+sed -i -e '$a\''udp_dissector_table:add(17550, mavlink_proto)' generated/mavlink_kaiken_v2.lua
+
 # Copy Lua script
-if [ -z "${WIRESHARK_PLUGIN_FOLDER+x}" ]
+if [ -z ${WIRESHARK_PLUGIN_FOLDER+x} ]
 then
-	echo Copying mavlink_kaiken_v2.lua to Wireshark plugin folder $WIRESHARK_PLUGIN_FOLDER
-	sudo /bin/cp -rf generated/mavlink_kaiken_v2.lua $WIRESHARK_PLUGIN_FOLDER/mavlink_kaiken_v2.lua
-else
-	echo Copying mavlink_kaiken_v2.lua to Wireshark plugin folder /usr/lib/x86_64-linux-gnu/wireshark/plugins
+	echo Copying mavlink_kaiken_v2.lua to DEFAULT Wireshark plugin folder /usr/lib/x86_64-linux-gnu/wireshark/plugins
 	sudo cp generated/mavlink_kaiken_v2.lua /usr/lib/x86_64-linux-gnu/wireshark/plugins/mavlink_kaiken_v2.lua
+else
+	echo Copying mavlink_kaiken_v2.lua to Wireshark plugin folder $WIRESHARK_PLUGIN_FOLDER.
+	sudo /bin/cp -rf generated/mavlink_kaiken_v2.lua $WIRESHARK_PLUGIN_FOLDER/mavlink_kaiken_v2.lua
 fi
