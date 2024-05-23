@@ -47,7 +47,7 @@
     <enum name="MAV_CMD">
       <!-- 1 to 43002 used by ardupilotmega.xml -->
       <entry value="45001" name="MAV_CMD_SET_TAKEOFF_WO_MAG" hasLocation="false" isDestination="false">
-        <description>Enable takeoff without magnetometer. Disabled mag fusion and prepares for takeoff.</description>
+        <description>Enable takeoff without magnetometer. Disables mag fusion and sets heading alignment.</description>
         <param index="1" label="Enable" minValue="0" maxValue="1" increment="1">0: disable takeoff without mag. 1: enable takeoff without mag.</param>
         <param index="2" label="Mag activation alt" units="m">When enabling, altitude above home position, above which mag fusion will be activated.</param>
         <param index="3" label="Init heading" units="deg" minValue="0" maxValue="359.99">When enabling, initial heading.</param>
