@@ -120,6 +120,64 @@
     </tr>
    </tbody>
   </table>
+  <h3 id="FMU_FAILSAFE_FLAGS">FMU_FAILSAFE_FLAGS</h3>
+  <p>
+   <a href="#enums">
+    [Enum]
+   </a>These encode the failsafe flags sent as part of the <a href="#FMU_TM">FMU_TM</a> message.</p>
+  <table class="sortable">
+   <thead>
+    <tr>
+     <th>Value</th>
+     <th>Field Name</th>
+     <th>Description</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr id="FMU_FAILSAFE_FLAGS_BATTERY">
+     <td>1</td>
+     <td>
+      <a href="#FMU_FAILSAFE_FLAGS_BATTERY">FMU_FAILSAFE_FLAGS_BATTERY</a>
+     </td>
+     <td>0x01 failsafe on battery warning</td>
+    </tr>
+    <tr id="FMU_FAILSAFE_FLAGS_CRITICAL_ATTITUDE">
+     <td>2</td>
+     <td>
+      <a href="#FMU_FAILSAFE_FLAGS_CRITICAL_ATTITUDE">FMU_FAILSAFE_FLAGS_CRITICAL_ATTITUDE</a>
+     </td>
+     <td>0x02 failsafe on critical pitch or roll</td>
+    </tr>
+    <tr id="FMU_FAILSAFE_FLAGS_OFFBOARD_LOSS">
+     <td>4</td>
+     <td>
+      <a href="#FMU_FAILSAFE_FLAGS_OFFBOARD_LOSS">FMU_FAILSAFE_FLAGS_OFFBOARD_LOSS</a>
+     </td>
+     <td>0x04 failsafe on offboard stream loss</td>
+    </tr>
+    <tr id="FMU_FAILSAFE_FLAGS_POSITION_LOSS">
+     <td>8</td>
+     <td>
+      <a href="#FMU_FAILSAFE_FLAGS_POSITION_LOSS">FMU_FAILSAFE_FLAGS_POSITION_LOSS</a>
+     </td>
+     <td>0x08 failsafe on position (GPS) loss</td>
+    </tr>
+    <tr id="FMU_FAILSAFE_FLAGS_SOFTFENCE">
+     <td>16</td>
+     <td>
+      <a href="#FMU_FAILSAFE_FLAGS_SOFTFENCE">FMU_FAILSAFE_FLAGS_SOFTFENCE</a>
+     </td>
+     <td>0x10 failsafe on softfence violation</td>
+    </tr>
+    <tr id="FMU_FAILSAFE_FLAGS_HARDFENCE">
+     <td>32</td>
+     <td>
+      <a href="#FMU_FAILSAFE_FLAGS_HARDFENCE">FMU_FAILSAFE_FLAGS_HARDFENCE</a>
+     </td>
+     <td>0x20 failsafe on hardfence violation</td>
+    </tr>
+   </tbody>
+  </table>
   <a id="MAV_CMD">
   </a>
   <h2 id="mav_commands">MAVLink Commands (<a href="#mav_commands">MAV_CMD</a>)</h2>
@@ -130,7 +188,7 @@
   </blockquote>
   <h2 id="messages">MAVLink Messages</h2>
   <h3 id="FMU_TM">FMU_TM (<a href="#FMU_TM">
-    #11102
+    #11103
    </a>
    )
   </h3>
@@ -266,6 +324,16 @@
       <a href="#FMU_COMPONENT_STATUS">FMU_COMPONENT_STATUS</a>
      </td>
      <td>Bitmap showing which onboard components are operational. Value of 0: not present. Value of 1: present.</td>
+    </tr>
+    <tr>
+     <td>failsafe_flags</td>
+     <td>uint8_t</td>
+     <td>
+     </td>
+     <td>
+      <a href="#FMU_FAILSAFE_FLAGS">FMU_FAILSAFE_FLAGS</a>
+     </td>
+     <td>Bitmap specifies detected failsafe. Value of 0: not present. Value of 1: present.</td>
     </tr>
     <tr>
      <td>voltage_battery</td>
