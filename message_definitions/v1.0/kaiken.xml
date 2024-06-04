@@ -45,23 +45,29 @@
     </enum>
     <enum name="FMU_FAILSAFE_FLAGS" bitmask="true">
       <description>These encode the failsafe flags sent as part of the FMU_TM message.</description>
-      <entry value="1" name="FMU_FAILSAFE_FLAGS_BATTERY">
-        <description>0x01 failsafe on battery warning</description>
+      <entry value="1" name="FMU_FAILSAFE_FLAGS_ACTION">
+        <description>0x01 irreversible failsafe action activated (that interrupts mission) </description>
       </entry>
-      <entry value="2" name="FMU_FAILSAFE_FLAGS_CRITICAL_ATTITUDE">
-        <description>0x02 failsafe on critical pitch or roll</description>
+      <entry value="2" name="FMU_FAILSAFE_FLAGS_BATTERY">
+        <description>0x02 failsafe on battery issue</description>
       </entry>
-      <entry value="4" name="FMU_FAILSAFE_FLAGS_OFFBOARD_LOSS">
-        <description>0x04 failsafe on offboard stream loss</description>
+      <entry value="4" name="FMU_FAILSAFE_FLAGS_CRITICAL_ATTITUDE">
+        <description>0x04 failsafe on critical pitch or roll</description>
       </entry>
-      <entry value="8" name="FMU_FAILSAFE_FLAGS_POSITION_LOSS">
-        <description>0x08 failsafe on position (GPS) loss</description>
+      <entry value="8" name="FMU_FAILSAFE_FLAGS_OFFBOARD_LOSS">
+        <description>0x08 failsafe on offboard stream loss</description>
       </entry>
-      <entry value="16" name="FMU_FAILSAFE_FLAGS_SOFTFENCE">
-        <description>0x10 failsafe on softfence violation</description>
+      <entry value="16" name="FMU_FAILSAFE_FLAGS_POSITION_LOSS">
+        <description>0x10 failsafe on position (GPS) loss</description>
       </entry>
-      <entry value="32" name="FMU_FAILSAFE_FLAGS_HARDFENCE">
-        <description>0x20 failsafe on hardfence violation</description>
+      <entry value="32" name="FMU_FAILSAFE_FLAGS_SOFTFENCE">
+        <description>0x20 failsafe on softfence violation</description>
+      </entry>
+      <entry value="64" name="FMU_FAILSAFE_FLAGS_HARDFENCE">
+        <description>0x40 failsafe on hardfence violation</description>
+      </entry>
+      <entry value="128" name="FMU_FAILSAFE_FLAGS_PATH">
+        <description>0x80 failsafe on path acceptance radius violation</description>
       </entry>
     </enum>
   </enums>
