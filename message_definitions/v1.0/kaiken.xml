@@ -43,10 +43,37 @@
         <description>0x20 Battery</description>
       </entry>
     </enum>
+    <enum name="FMU_FAILSAFE_FLAGS" bitmask="true">
+      <description>These encode the failsafe flags sent as part of the FMU_TM message.</description>
+      <entry value="1" name="FMU_FAILSAFE_FLAGS_ACTION">
+        <description>0x01 irreversible failsafe action activated (that interrupts mission) </description>
+      </entry>
+      <entry value="2" name="FMU_FAILSAFE_FLAGS_BATTERY">
+        <description>0x02 failsafe on battery issue</description>
+      </entry>
+      <entry value="4" name="FMU_FAILSAFE_FLAGS_CRITICAL_ATTITUDE">
+        <description>0x04 failsafe on critical pitch or roll</description>
+      </entry>
+      <entry value="8" name="FMU_FAILSAFE_FLAGS_OFFBOARD_LOSS">
+        <description>0x08 failsafe on offboard stream loss</description>
+      </entry>
+      <entry value="16" name="FMU_FAILSAFE_FLAGS_POSITION_LOSS">
+        <description>0x10 failsafe on position (GPS) loss</description>
+      </entry>
+      <entry value="32" name="FMU_FAILSAFE_FLAGS_SOFTFENCE">
+        <description>0x20 failsafe on softfence violation</description>
+      </entry>
+      <entry value="64" name="FMU_FAILSAFE_FLAGS_HARDFENCE">
+        <description>0x40 failsafe on hardfence violation</description>
+      </entry>
+      <entry value="128" name="FMU_FAILSAFE_FLAGS_PATH">
+        <description>0x80 failsafe on path acceptance radius violation</description>
+      </entry>
+    </enum>
   </enums>
   <messages>
     <!-- Messages specifically designated for the Kaiken autopilot -->
-    <message id="11102" name="FMU_TM">
+    <message id="11103" name="FMU_TM">
       <description>Kaiken FMU telemetry.</description>
       <field type="uint64_t" name="time" units="us">Time of applicability of position (microseconds since UNIX epoch).</field>
       <field type="uint8_t" name="satellites_visible">Number of satellites visible. If unknown, set to UINT8_MAX.</field>
@@ -61,6 +88,7 @@
       <field type="uint8_t" name="flags" enum="FMU_TM_FLAGS" display="bitmask" print_format="0x%04x">Bitmap showing TM flags. Value of 0: not present. Value of 1: present.</field>
       <field type="uint8_t" name="component_present" enum="FMU_COMPONENT_STATUS" display="bitmask" print_format="0x%04x">Bitmap showing which onboard components are present. Value of 0: not present. Value of 1: present.</field>
       <field type="uint8_t" name="component_health" enum="FMU_COMPONENT_STATUS" display="bitmask" print_format="0x%04x">Bitmap showing which onboard components are operational. Value of 0: not present. Value of 1: present.</field>
+      <field type="uint8_t" name="failsafe_flags" enum="FMU_FAILSAFE_FLAGS" display="bitmask" print_format="0x%04x">Bitmap specifies detected failsafe. Value of 0: not present. Value of 1: present.</field>
       <field type="uint16_t" name="voltage_battery" units="mV" invalid="UINT16_MAX">Battery voltage, UINT16_MAX: Voltage not sent by autopilot</field>
       <field type="int16_t" name="current_battery" units="cA" invalid="-1">Battery current, -1: Current not sent by autopilot</field>
       <field type="int8_t" name="battery_remaining" units="%" invalid="-1">Battery energy remaining, -1: Battery remaining energy not sent by autopilot</field>
