@@ -5,8 +5,8 @@ Help()
    # Show Help
    echo "This script generates:"
    echo "- C-lib for the Kaiken dialect (/generated/mavlink_kaiken_v2)"
-   echo "- Python-lib for the full Kaiken dialect (<system pymavlink folder>/dialects/v20/kaiken.py)"
-   echo "- Cuted kaiken dialect (/generated/kaiken_minimal.py) using whitelist from /cut_dialect_config.ini"
+   echo "- Python-lib for the full Kaiken dialect (/generated/kaiken.py)"
+   echo "- Python-lib for the lightweight kaiken dialect (/generated/kaiken_minimal.py) using whitelist from /cut_dialect_config.ini"
    echo "- html documentation for the Kaiken dialect (/doc/publish/kaikem.html)"
    echo "- Wireshark plugin (/generated/mavlink_kaiken_v2.lua) and saves it to Wireshark Plugin folder by default"
    echo
@@ -30,29 +30,19 @@ mkdir -p publish
 cp messages/_html/kaiken.html publish
 cd ..
 
-# Generate C-lib
+# Generate C-lib for Kaiken dialect
 python -m pymavlink.tools.mavgen --lang=C --wire-protocol=2.0 --output=generated/mavlink_kaiken_v2 message_definitions/v1.0/kaiken.xml
 # Overwrite message ID in generated C-lib
 python ./kaiken_clib_overwrite.py -d generated/mavlink_kaiken_v2/kaiken
 
-# Generate Python libs and reinstall pymavlink
-pip uninstall -y pymavlink
-cd pymavlink
-python setup.py install
-cd ..
-
+# Generate Python lib for the full Kaiken dialect
+python -m pymavlink.tools.mavgen --lang=Python --wire-protocol=2.0 --output=generated/kaiken message_definitions/v1.0/kaiken.xml
 # Overwrite message ID in generated Python-lib
-pymavlink_path=$(pip show pymavlink | sed -n 's/.*Location://p')/pymavlink
-python ./kaiken_pylib_overwrite.py -d ${pymavlink_path}/dialects/v20
+python ./kaiken_pylib_overwrite.py -f $PWD/generated/kaiken.py
 
-# Fix mavutil.py
-python ./kaiken_mavutil_overwrite.py -d ${pymavlink_path}
-
-# Generate cuted kaiken dialect
-# with only whitelist messages
-echo "Generating cuted kaiken dialect"
-python ./cut_mavlink_dialect.py -i ${pymavlink_path}/dialects/v20/kaiken.py -p ./generated/
-echo "Cuted kaiken dialect generated"
+# Generate Python lib for the lightweight Kaiken dialect with only whitelist messages
+python ./cut_mavlink_dialect.py -i ./generated/kaiken.py -p ./generated/
+echo "Generated lightweight dialect generated/kaiken_minimal.py"
 
 # Generate lib for Wireshark
 python -m pymavlink.tools.mavgen --lang=WLua --wire-protocol=2.0 --output=generated/mavlink_kaiken_v2 message_definitions/v1.0/kaiken.xml
