@@ -8242,6 +8242,64 @@ class MAVLink_file_transfer_protocol_message(MAVLink_message):
 setattr(MAVLink_file_transfer_protocol_message, "name", mavlink_msg_deprecated_name_property())
 
 
+class MAVLink_timesync_message(MAVLink_message):
+    """
+    Time synchronization message.         The message is used for both
+    timesync requests and responses.         The request is sent with
+    `ts1=syncing component timestamp` and `tc1=0`, and may be
+    broadcast or targeted to a specific system/component.         The
+    response is sent with `ts1=syncing component timestamp` (mirror
+    back unchanged), and `tc1=responding component timestamp`, with
+    the `target_system` and `target_component` set to ids of the
+    original request.         Systems can determine if they are
+    receiving a request or response based on the value of `tc`.
+    If the response has `target_system==target_component==0` the
+    remote system has not been updated to use the component IDs and
+    cannot reliably timesync; the requestor may report an error.
+    Timestamps are UNIX Epoch time or time since system boot in
+    nanoseconds (the timestamp format can be inferred by checking for
+    the magnitude of the number; generally it doesn't matter as only
+    the offset is used).         The message sequence is repeated
+    numerous times with results being filtered/averaged to estimate
+    the offset.
+    """
+
+    id = MAVLINK_MSG_ID_TIMESYNC
+    msgname = "TIMESYNC"
+    fieldnames = ["tc1", "ts1", "target_system", "target_component"]
+    ordered_fieldnames = ["tc1", "ts1", "target_system", "target_component"]
+    fieldtypes = ["int64_t", "int64_t", "uint8_t", "uint8_t"]
+    fielddisplays_by_name: Dict[str, str] = {}
+    fieldenums_by_name: Dict[str, str] = {}
+    fieldunits_by_name: Dict[str, str] = {"tc1": "ns", "ts1": "ns"}
+    native_format = bytearray(b"<qqBB")
+    orders = [0, 1, 2, 3]
+    lengths = [1, 1, 1, 1]
+    array_lengths = [0, 0, 0, 0]
+    crc_extra = 34
+    unpacker = struct.Struct("<qqBB")
+    instance_field = None
+    instance_offset = -1
+
+    def __init__(self, tc1: int, ts1: int, target_system: int = 0, target_component: int = 0):
+        MAVLink_message.__init__(self, MAVLink_timesync_message.id, MAVLink_timesync_message.msgname)
+        self._fieldnames = MAVLink_timesync_message.fieldnames
+        self._instance_field = MAVLink_timesync_message.instance_field
+        self._instance_offset = MAVLink_timesync_message.instance_offset
+        self.tc1 = tc1
+        self.ts1 = ts1
+        self.target_system = target_system
+        self.target_component = target_component
+
+    def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.tc1, self.ts1, self.target_system, self.target_component), force_mavlink1=force_mavlink1)
+
+
+# Define name on the class for backwards compatibility (it is now msgname).
+# Done with setattr to hide the class variable from mypy.
+setattr(MAVLink_timesync_message, "name", mavlink_msg_deprecated_name_property())
+
+
 class MAVLink_serial_control_message(MAVLink_message):
     """
     Control a serial port. This can be used for raw access to an
@@ -8584,6 +8642,7 @@ mavlink_map: Dict[int, Type[MAVLink_message]] = {
     MAVLINK_MSG_ID_COMMAND_LONG: MAVLink_command_long_message,
     MAVLINK_MSG_ID_COMMAND_ACK: MAVLink_command_ack_message,
     MAVLINK_MSG_ID_FILE_TRANSFER_PROTOCOL: MAVLink_file_transfer_protocol_message,
+    MAVLINK_MSG_ID_TIMESYNC: MAVLink_timesync_message,
     MAVLINK_MSG_ID_SERIAL_CONTROL: MAVLink_serial_control_message,
     MAVLINK_MSG_ID_GPS_RTCM_DATA: MAVLink_gps_rtcm_data_message,
     MAVLINK_MSG_ID_NAMED_VALUE_FLOAT: MAVLink_named_value_float_message,
@@ -9505,6 +9564,36 @@ class MAVLink(object):
 
         """
         self.send(self.file_transfer_protocol_encode(target_network, target_system, target_component, payload), force_mavlink1=force_mavlink1)
+
+    def timesync_send(self, tc1: int, ts1: int, target_system: int = 0, target_component: int = 0, force_mavlink1: bool = False) -> None:
+        """
+        Time synchronization message.         The message is used for both
+        timesync requests and responses.         The request is sent
+        with `ts1=syncing component timestamp` and `tc1=0`, and may be
+        broadcast or targeted to a specific system/component.
+        The response is sent with `ts1=syncing component timestamp`
+        (mirror back unchanged), and `tc1=responding component
+        timestamp`, with the `target_system` and `target_component`
+        set to ids of the original request.         Systems can
+        determine if they are receiving a request or response based on
+        the value of `tc`.         If the response has
+        `target_system==target_component==0` the remote system has not
+        been updated to use the component IDs and cannot reliably
+        timesync; the requestor may report an error.
+        Timestamps are UNIX Epoch time or time since system boot in
+        nanoseconds (the timestamp format can be inferred by checking
+        for the magnitude of the number; generally it doesn't matter
+        as only the offset is used).         The message sequence is
+        repeated numerous times with results being filtered/averaged
+        to estimate the offset.
+
+        tc1                       : Time sync timestamp 1. Syncing: 0. Responding: Timestamp of responding component. [ns] (type:int64_t)
+        ts1                       : Time sync timestamp 2. Timestamp of syncing component (mirrored in response). [ns] (type:int64_t)
+        target_system             : Target system id. Request: 0 (broadcast) or id of specific system. Response must contain system id of the requesting component. (type:uint8_t)
+        target_component          : Target component id. Request: 0 (broadcast) or id of specific component. Response must contain component id of the requesting component. (type:uint8_t)
+
+        """
+        self.send(self.timesync_encode(tc1, ts1, target_system, target_component), force_mavlink1=force_mavlink1)
 
     def serial_control_encode(self, device: int, flags: int, timeout: int, baudrate: int, count: int, data: Sequence[int], target_system: int = 0, target_component: int = 0) -> MAVLink_serial_control_message:
         """
