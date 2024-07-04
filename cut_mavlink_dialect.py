@@ -23,7 +23,8 @@ def get_method_name(line: str) -> Union[str, None]:
     return METHOD_NAME_PATTERN.match(line).group(1)     
 
 def method_to_msg_name(method_name: str) -> Union[str, None]:
-    return f'MAVLink_{method_name.rstrip("_encode").rstrip("_send")}_message'
+    msg_short_name = re.sub(r'(_encode|_send)$', '', method_name)
+    return f'MAVLink_{msg_short_name}_message'
 
 def is_mav_msg_class_line(line: str) -> bool:
     return bool(MAV_MSG_CLASS_PATTERN.match(line))
