@@ -9155,6 +9155,70 @@ class MAVLink(object):
         """
         self.send(self.data96_encode(type, len, data), force_mavlink1=force_mavlink1)
 
+    def set_mode_encode(self, target_system: int, base_mode: int, custom_mode: int) -> MAVLink_set_mode_message:
+        """
+        Set the system mode, as defined by enum MAV_MODE. There is no target
+        component id as the mode is by definition for the overall
+        aircraft, not only for one component.
+
+        target_system             : The system setting the mode (type:uint8_t)
+        base_mode                 : The new base mode. (type:uint8_t, values:MAV_MODE)
+        custom_mode               : The new autopilot-specific mode. This field can be ignored by an autopilot. (type:uint32_t)
+
+        """
+        return MAVLink_set_mode_message(target_system, base_mode, custom_mode)
+
+    def set_mode_send(self, target_system: int, base_mode: int, custom_mode: int, force_mavlink1: bool = False) -> None:
+        """
+        Set the system mode, as defined by enum MAV_MODE. There is no target
+        component id as the mode is by definition for the overall
+        aircraft, not only for one component.
+
+        target_system             : The system setting the mode (type:uint8_t)
+        base_mode                 : The new base mode. (type:uint8_t, values:MAV_MODE)
+        custom_mode               : The new autopilot-specific mode. This field can be ignored by an autopilot. (type:uint32_t)
+
+        """
+        self.send(self.set_mode_encode(target_system, base_mode, custom_mode), force_mavlink1=force_mavlink1)
+
+    def param_request_read_encode(self, target_system: int, target_component: int, param_id: bytes, param_index: int) -> MAVLink_param_request_read_message:
+        """
+        Request to read the onboard parameter with the param_id string id.
+        Onboard parameters are stored as key[const char*] ->
+        value[float]. This allows to send a parameter to any other
+        component (such as the GCS) without the need of previous
+        knowledge of possible parameter names. Thus the same GCS can
+        store different parameters for different autopilots. See also
+        https://mavlink.io/en/services/parameter.html for a full
+        documentation of QGroundControl and IMU code.
+
+        target_system             : System ID (type:uint8_t)
+        target_component          : Component ID (type:uint8_t)
+        param_id                  : Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string (type:char)
+        param_index               : Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored) (type:int16_t)
+
+        """
+        return MAVLink_param_request_read_message(target_system, target_component, param_id, param_index)
+
+    def param_request_read_send(self, target_system: int, target_component: int, param_id: bytes, param_index: int, force_mavlink1: bool = False) -> None:
+        """
+        Request to read the onboard parameter with the param_id string id.
+        Onboard parameters are stored as key[const char*] ->
+        value[float]. This allows to send a parameter to any other
+        component (such as the GCS) without the need of previous
+        knowledge of possible parameter names. Thus the same GCS can
+        store different parameters for different autopilots. See also
+        https://mavlink.io/en/services/parameter.html for a full
+        documentation of QGroundControl and IMU code.
+
+        target_system             : System ID (type:uint8_t)
+        target_component          : Component ID (type:uint8_t)
+        param_id                  : Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string (type:char)
+        param_index               : Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored) (type:int16_t)
+
+        """
+        self.send(self.param_request_read_encode(target_system, target_component, param_id, param_index), force_mavlink1=force_mavlink1)
+
     def param_request_list_encode(self, target_system: int, target_component: int) -> MAVLink_param_request_list_message:
         """
         Request all parameters of this component. After this request, all
@@ -9178,6 +9242,42 @@ class MAVLink(object):
 
         """
         self.send(self.param_request_list_encode(target_system, target_component), force_mavlink1=force_mavlink1)
+
+    def param_value_encode(self, param_id: bytes, param_value: float, param_type: int, param_count: int, param_index: int) -> MAVLink_param_value_message:
+        """
+        Emit the value of a onboard parameter. The inclusion of param_count
+        and param_index in the message allows the recipient to keep
+        track of received parameters and allows him to re-request
+        missing parameters after a loss or timeout. The parameter
+        microservice is documented at
+        https://mavlink.io/en/services/parameter.html
+
+        param_id                  : Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string (type:char)
+        param_value               : Onboard parameter value (type:float)
+        param_type                : Onboard parameter type. (type:uint8_t, values:MAV_PARAM_TYPE)
+        param_count               : Total number of onboard parameters (type:uint16_t)
+        param_index               : Index of this onboard parameter (type:uint16_t)
+
+        """
+        return MAVLink_param_value_message(param_id, param_value, param_type, param_count, param_index)
+
+    def param_value_send(self, param_id: bytes, param_value: float, param_type: int, param_count: int, param_index: int, force_mavlink1: bool = False) -> None:
+        """
+        Emit the value of a onboard parameter. The inclusion of param_count
+        and param_index in the message allows the recipient to keep
+        track of received parameters and allows him to re-request
+        missing parameters after a loss or timeout. The parameter
+        microservice is documented at
+        https://mavlink.io/en/services/parameter.html
+
+        param_id                  : Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string (type:char)
+        param_value               : Onboard parameter value (type:float)
+        param_type                : Onboard parameter type. (type:uint8_t, values:MAV_PARAM_TYPE)
+        param_count               : Total number of onboard parameters (type:uint16_t)
+        param_index               : Index of this onboard parameter (type:uint16_t)
+
+        """
+        self.send(self.param_value_encode(param_id, param_value, param_type, param_count, param_index), force_mavlink1=force_mavlink1)
 
     def param_set_encode(self, target_system: int, target_component: int, param_id: bytes, param_value: float, param_type: int) -> MAVLink_param_set_message:
         """
@@ -9565,6 +9665,36 @@ class MAVLink(object):
         """
         self.send(self.file_transfer_protocol_encode(target_network, target_system, target_component, payload), force_mavlink1=force_mavlink1)
 
+    def timesync_encode(self, tc1: int, ts1: int, target_system: int = 0, target_component: int = 0) -> MAVLink_timesync_message:
+        """
+        Time synchronization message.         The message is used for both
+        timesync requests and responses.         The request is sent
+        with `ts1=syncing component timestamp` and `tc1=0`, and may be
+        broadcast or targeted to a specific system/component.
+        The response is sent with `ts1=syncing component timestamp`
+        (mirror back unchanged), and `tc1=responding component
+        timestamp`, with the `target_system` and `target_component`
+        set to ids of the original request.         Systems can
+        determine if they are receiving a request or response based on
+        the value of `tc`.         If the response has
+        `target_system==target_component==0` the remote system has not
+        been updated to use the component IDs and cannot reliably
+        timesync; the requestor may report an error.
+        Timestamps are UNIX Epoch time or time since system boot in
+        nanoseconds (the timestamp format can be inferred by checking
+        for the magnitude of the number; generally it doesn't matter
+        as only the offset is used).         The message sequence is
+        repeated numerous times with results being filtered/averaged
+        to estimate the offset.
+
+        tc1                       : Time sync timestamp 1. Syncing: 0. Responding: Timestamp of responding component. [ns] (type:int64_t)
+        ts1                       : Time sync timestamp 2. Timestamp of syncing component (mirrored in response). [ns] (type:int64_t)
+        target_system             : Target system id. Request: 0 (broadcast) or id of specific system. Response must contain system id of the requesting component. (type:uint8_t)
+        target_component          : Target component id. Request: 0 (broadcast) or id of specific component. Response must contain component id of the requesting component. (type:uint8_t)
+
+        """
+        return MAVLink_timesync_message(tc1, ts1, target_system, target_component)
+
     def timesync_send(self, tc1: int, ts1: int, target_system: int = 0, target_component: int = 0, force_mavlink1: bool = False) -> None:
         """
         Time synchronization message.         The message is used for both
@@ -9740,6 +9870,60 @@ class MAVLink(object):
 
         """
         self.send(self.statustext_encode(severity, text, id, chunk_seq), force_mavlink1=force_mavlink1)
+
+    def storage_information_encode(self, time_boot_ms: int, storage_id: int, storage_count: int, status: int, total_capacity: float, used_capacity: float, available_capacity: float, read_speed: float, write_speed: float, type: int = 0, name: bytes = b"", storage_usage: int = 0) -> MAVLink_storage_information_message:
+        """
+        Information about a storage medium. This message is sent in response
+        to a request with MAV_CMD_REQUEST_MESSAGE and whenever the
+        status of the storage changes (STORAGE_STATUS). Use
+        MAV_CMD_REQUEST_MESSAGE.param2 to indicate the index/id of
+        requested storage: 0 for all, 1 for first, 2 for second, etc.
+
+        time_boot_ms              : Timestamp (time since system boot). [ms] (type:uint32_t)
+        storage_id                : Storage ID (1 for first, 2 for second, etc.) (type:uint8_t)
+        storage_count             : Number of storage devices (type:uint8_t)
+        status                    : Status of storage (type:uint8_t, values:STORAGE_STATUS)
+        total_capacity            : Total capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored. [MiB] (type:float)
+        used_capacity             : Used capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored. [MiB] (type:float)
+        available_capacity        : Available storage capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored. [MiB] (type:float)
+        read_speed                : Read speed. [MiB/s] (type:float)
+        write_speed               : Write speed. [MiB/s] (type:float)
+        type                      : Type of storage (type:uint8_t, values:STORAGE_TYPE)
+        name                      : Textual storage name to be used in UI (microSD 1, Internal Memory, etc.) This is a NULL terminated string. If it is exactly 32 characters long, add a terminating NULL. If this string is empty, the generic type is shown to the user. (type:char)
+        storage_usage             : Flags indicating whether this instance is preferred storage for photos, videos, etc.
+        Note: Implementations should initially set the flags on the system-default storage id used for saving media (if possible/supported).
+        This setting can then be overridden using MAV_CMD_SET_STORAGE_USAGE.
+        If the media usage flags are not set, a GCS may assume storage ID 1 is the default storage for all media types. (type:uint8_t, values:STORAGE_USAGE_FLAG)
+
+        """
+        return MAVLink_storage_information_message(time_boot_ms, storage_id, storage_count, status, total_capacity, used_capacity, available_capacity, read_speed, write_speed, type, name, storage_usage)
+
+    def storage_information_send(self, time_boot_ms: int, storage_id: int, storage_count: int, status: int, total_capacity: float, used_capacity: float, available_capacity: float, read_speed: float, write_speed: float, type: int = 0, name: bytes = b"", storage_usage: int = 0, force_mavlink1: bool = False) -> None:
+        """
+        Information about a storage medium. This message is sent in response
+        to a request with MAV_CMD_REQUEST_MESSAGE and whenever the
+        status of the storage changes (STORAGE_STATUS). Use
+        MAV_CMD_REQUEST_MESSAGE.param2 to indicate the index/id of
+        requested storage: 0 for all, 1 for first, 2 for second, etc.
+
+        time_boot_ms              : Timestamp (time since system boot). [ms] (type:uint32_t)
+        storage_id                : Storage ID (1 for first, 2 for second, etc.) (type:uint8_t)
+        storage_count             : Number of storage devices (type:uint8_t)
+        status                    : Status of storage (type:uint8_t, values:STORAGE_STATUS)
+        total_capacity            : Total capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored. [MiB] (type:float)
+        used_capacity             : Used capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored. [MiB] (type:float)
+        available_capacity        : Available storage capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored. [MiB] (type:float)
+        read_speed                : Read speed. [MiB/s] (type:float)
+        write_speed               : Write speed. [MiB/s] (type:float)
+        type                      : Type of storage (type:uint8_t, values:STORAGE_TYPE)
+        name                      : Textual storage name to be used in UI (microSD 1, Internal Memory, etc.) This is a NULL terminated string. If it is exactly 32 characters long, add a terminating NULL. If this string is empty, the generic type is shown to the user. (type:char)
+        storage_usage             : Flags indicating whether this instance is preferred storage for photos, videos, etc.
+        Note: Implementations should initially set the flags on the system-default storage id used for saving media (if possible/supported).
+        This setting can then be overridden using MAV_CMD_SET_STORAGE_USAGE.
+        If the media usage flags are not set, a GCS may assume storage ID 1 is the default storage for all media types. (type:uint8_t, values:STORAGE_USAGE_FLAG)
+
+        """
+        self.send(self.storage_information_encode(time_boot_ms, storage_id, storage_count, status, total_capacity, used_capacity, available_capacity, read_speed, write_speed, type, name, storage_usage), force_mavlink1=force_mavlink1)
 
     def heartbeat_encode(self, type: int, autopilot: int, base_mode: int, custom_mode: int, system_status: int, mavlink_version: int = 3) -> MAVLink_heartbeat_message:
         """
