@@ -8349,6 +8349,56 @@ class MAVLink_serial_control_message(MAVLink_message):
 setattr(MAVLink_serial_control_message, "name", mavlink_msg_deprecated_name_property())
 
 
+class MAVLink_autopilot_version_message(MAVLink_message):
+    """
+    Version and capability of autopilot software. This should be
+    emitted in response to a request with MAV_CMD_REQUEST_MESSAGE.
+    """
+
+    id = MAVLINK_MSG_ID_AUTOPILOT_VERSION
+    msgname = "AUTOPILOT_VERSION"
+    fieldnames = ["capabilities", "flight_sw_version", "middleware_sw_version", "os_sw_version", "board_version", "flight_custom_version", "middleware_custom_version", "os_custom_version", "vendor_id", "product_id", "uid", "uid2"]
+    ordered_fieldnames = ["capabilities", "uid", "flight_sw_version", "middleware_sw_version", "os_sw_version", "board_version", "vendor_id", "product_id", "flight_custom_version", "middleware_custom_version", "os_custom_version", "uid2"]
+    fieldtypes = ["uint64_t", "uint32_t", "uint32_t", "uint32_t", "uint32_t", "uint8_t", "uint8_t", "uint8_t", "uint16_t", "uint16_t", "uint64_t", "uint8_t"]
+    fielddisplays_by_name: Dict[str, str] = {"capabilities": "bitmask"}
+    fieldenums_by_name: Dict[str, str] = {"capabilities": "MAV_PROTOCOL_CAPABILITY"}
+    fieldunits_by_name: Dict[str, str] = {}
+    native_format = bytearray(b"<QQIIIIHHBBBB")
+    orders = [0, 2, 3, 4, 5, 8, 9, 10, 6, 7, 1, 11]
+    lengths = [1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 8, 18]
+    array_lengths = [0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 18]
+    crc_extra = 178
+    unpacker = struct.Struct("<QQIIIIHH8B8B8B18B")
+    instance_field = None
+    instance_offset = -1
+
+    def __init__(self, capabilities: int, flight_sw_version: int, middleware_sw_version: int, os_sw_version: int, board_version: int, flight_custom_version: Sequence[int], middleware_custom_version: Sequence[int], os_custom_version: Sequence[int], vendor_id: int, product_id: int, uid: int, uid2: Sequence[int] = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)):
+        MAVLink_message.__init__(self, MAVLink_autopilot_version_message.id, MAVLink_autopilot_version_message.msgname)
+        self._fieldnames = MAVLink_autopilot_version_message.fieldnames
+        self._instance_field = MAVLink_autopilot_version_message.instance_field
+        self._instance_offset = MAVLink_autopilot_version_message.instance_offset
+        self.capabilities = capabilities
+        self.flight_sw_version = flight_sw_version
+        self.middleware_sw_version = middleware_sw_version
+        self.os_sw_version = os_sw_version
+        self.board_version = board_version
+        self.flight_custom_version = flight_custom_version
+        self.middleware_custom_version = middleware_custom_version
+        self.os_custom_version = os_custom_version
+        self.vendor_id = vendor_id
+        self.product_id = product_id
+        self.uid = uid
+        self.uid2 = uid2
+
+    def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.capabilities, self.uid, self.flight_sw_version, self.middleware_sw_version, self.os_sw_version, self.board_version, self.vendor_id, self.product_id, self.flight_custom_version[0], self.flight_custom_version[1], self.flight_custom_version[2], self.flight_custom_version[3], self.flight_custom_version[4], self.flight_custom_version[5], self.flight_custom_version[6], self.flight_custom_version[7], self.middleware_custom_version[0], self.middleware_custom_version[1], self.middleware_custom_version[2], self.middleware_custom_version[3], self.middleware_custom_version[4], self.middleware_custom_version[5], self.middleware_custom_version[6], self.middleware_custom_version[7], self.os_custom_version[0], self.os_custom_version[1], self.os_custom_version[2], self.os_custom_version[3], self.os_custom_version[4], self.os_custom_version[5], self.os_custom_version[6], self.os_custom_version[7], self.uid2[0], self.uid2[1], self.uid2[2], self.uid2[3], self.uid2[4], self.uid2[5], self.uid2[6], self.uid2[7], self.uid2[8], self.uid2[9], self.uid2[10], self.uid2[11], self.uid2[12], self.uid2[13], self.uid2[14], self.uid2[15], self.uid2[16], self.uid2[17]), force_mavlink1=force_mavlink1)
+
+
+# Define name on the class for backwards compatibility (it is now msgname).
+# Done with setattr to hide the class variable from mypy.
+setattr(MAVLink_autopilot_version_message, "name", mavlink_msg_deprecated_name_property())
+
+
 class MAVLink_gps_rtcm_data_message(MAVLink_message):
     """
     RTCM message for injecting into the onboard GPS (used for DGPS)
@@ -8644,6 +8694,7 @@ mavlink_map: Dict[int, Type[MAVLink_message]] = {
     MAVLINK_MSG_ID_FILE_TRANSFER_PROTOCOL: MAVLink_file_transfer_protocol_message,
     MAVLINK_MSG_ID_TIMESYNC: MAVLink_timesync_message,
     MAVLINK_MSG_ID_SERIAL_CONTROL: MAVLink_serial_control_message,
+    MAVLINK_MSG_ID_AUTOPILOT_VERSION: MAVLink_autopilot_version_message,
     MAVLINK_MSG_ID_GPS_RTCM_DATA: MAVLink_gps_rtcm_data_message,
     MAVLINK_MSG_ID_NAMED_VALUE_FLOAT: MAVLink_named_value_float_message,
     MAVLINK_MSG_ID_NAMED_VALUE_INT: MAVLink_named_value_int_message,
@@ -9764,6 +9815,48 @@ class MAVLink(object):
 
         """
         self.send(self.serial_control_encode(device, flags, timeout, baudrate, count, data, target_system, target_component), force_mavlink1=force_mavlink1)
+
+    def autopilot_version_encode(self, capabilities: int, flight_sw_version: int, middleware_sw_version: int, os_sw_version: int, board_version: int, flight_custom_version: Sequence[int], middleware_custom_version: Sequence[int], os_custom_version: Sequence[int], vendor_id: int, product_id: int, uid: int, uid2: Sequence[int] = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)) -> MAVLink_autopilot_version_message:
+        """
+        Version and capability of autopilot software. This should be emitted
+        in response to a request with MAV_CMD_REQUEST_MESSAGE.
+
+        capabilities              : Bitmap of capabilities (type:uint64_t, values:MAV_PROTOCOL_CAPABILITY)
+        flight_sw_version         : Firmware version number (type:uint32_t)
+        middleware_sw_version        : Middleware version number (type:uint32_t)
+        os_sw_version             : Operating system version number (type:uint32_t)
+        board_version             : HW / board version (last 8 bits should be silicon ID, if any). The first 16 bits of this field specify https://github.com/PX4/PX4-Bootloader/blob/master/board_types.txt (type:uint32_t)
+        flight_custom_version        : Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. (type:uint8_t)
+        middleware_custom_version        : Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. (type:uint8_t)
+        os_custom_version         : Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. (type:uint8_t)
+        vendor_id                 : ID of the board vendor (type:uint16_t)
+        product_id                : ID of the product (type:uint16_t)
+        uid                       : UID if provided by hardware (see uid2) (type:uint64_t)
+        uid2                      : UID if provided by hardware (supersedes the uid field. If this is non-zero, use this field, otherwise use uid) (type:uint8_t)
+
+        """
+        return MAVLink_autopilot_version_message(capabilities, flight_sw_version, middleware_sw_version, os_sw_version, board_version, flight_custom_version, middleware_custom_version, os_custom_version, vendor_id, product_id, uid, uid2)
+
+    def autopilot_version_send(self, capabilities: int, flight_sw_version: int, middleware_sw_version: int, os_sw_version: int, board_version: int, flight_custom_version: Sequence[int], middleware_custom_version: Sequence[int], os_custom_version: Sequence[int], vendor_id: int, product_id: int, uid: int, uid2: Sequence[int] = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), force_mavlink1: bool = False) -> None:
+        """
+        Version and capability of autopilot software. This should be emitted
+        in response to a request with MAV_CMD_REQUEST_MESSAGE.
+
+        capabilities              : Bitmap of capabilities (type:uint64_t, values:MAV_PROTOCOL_CAPABILITY)
+        flight_sw_version         : Firmware version number (type:uint32_t)
+        middleware_sw_version        : Middleware version number (type:uint32_t)
+        os_sw_version             : Operating system version number (type:uint32_t)
+        board_version             : HW / board version (last 8 bits should be silicon ID, if any). The first 16 bits of this field specify https://github.com/PX4/PX4-Bootloader/blob/master/board_types.txt (type:uint32_t)
+        flight_custom_version        : Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. (type:uint8_t)
+        middleware_custom_version        : Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. (type:uint8_t)
+        os_custom_version         : Custom version field, commonly the first 8 bytes of the git hash. This is not an unique identifier, but should allow to identify the commit using the main version number even for very large code bases. (type:uint8_t)
+        vendor_id                 : ID of the board vendor (type:uint16_t)
+        product_id                : ID of the product (type:uint16_t)
+        uid                       : UID if provided by hardware (see uid2) (type:uint64_t)
+        uid2                      : UID if provided by hardware (supersedes the uid field. If this is non-zero, use this field, otherwise use uid) (type:uint8_t)
+
+        """
+        self.send(self.autopilot_version_encode(capabilities, flight_sw_version, middleware_sw_version, os_sw_version, board_version, flight_custom_version, middleware_custom_version, os_custom_version, vendor_id, product_id, uid, uid2), force_mavlink1=force_mavlink1)
 
     def gps_rtcm_data_encode(self, flags: int, len: int, data: Sequence[int]) -> MAVLink_gps_rtcm_data_message:
         """
