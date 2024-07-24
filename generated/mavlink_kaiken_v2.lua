@@ -2553,6 +2553,8 @@ local enumEntryName = {
         [40] = "MAV_TYPE_IMU",
         [41] = "MAV_TYPE_GPS",
         [42] = "MAV_TYPE_WINCH",
+        [50] = "INTEGRATED_LORARTK",
+        [51] = "STANDALONE_LORARTK",
     },
     ["MAV_MODE_FLAG"] = {
         [1] = "MAV_MODE_FLAG_CUSTOM_MODE_ENABLED",

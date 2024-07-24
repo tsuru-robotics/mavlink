@@ -200,6 +200,12 @@
       <entry value="42" name="MAV_TYPE_WINCH">
         <description>Winch</description>
       </entry>
+      <entry value="50" name="INTEGRATED_LORARTK">
+        <description>Integrated LORA|RTK device</description>
+      </entry>
+      <entry value="51" name="STANDALONE_LORARTK">
+        <description>Standalone LORA|RTK device</description>
+      </entry>
     </enum>
     <enum name="MAV_MODE_FLAG" bitmask="true">
       <description>These flags encode the MAV mode.</description>
