@@ -192,6 +192,319 @@
     </tr>
    </tbody>
   </table>
+  <h3 id="RTK_FIX_TYPE">RTK_FIX_TYPE</h3>
+  <p>
+   <a href="#enums">
+    [Enum]
+   </a>
+  </p>
+  <table class="sortable">
+   <thead>
+    <tr>
+     <th>Value</th>
+     <th>Field Name</th>
+     <th>Description</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr id="RTK_FIX_TYPE_NOFIX">
+     <td>0</td>
+     <td>
+      <a href="#RTK_FIX_TYPE_NOFIX">RTK_FIX_TYPE_NOFIX</a>
+     </td>
+     <td>No ﬁx.</td>
+    </tr>
+    <tr id="RTK_FIX_TYPE_DEADREC">
+     <td>1</td>
+     <td>
+      <a href="#RTK_FIX_TYPE_DEADREC">RTK_FIX_TYPE_DEADREC</a>
+     </td>
+     <td>dead reckoning only.</td>
+    </tr>
+    <tr id="RTK_FIX_TYPE_2D">
+     <td>2</td>
+     <td>
+      <a href="#RTK_FIX_TYPE_2D">RTK_FIX_TYPE_2D</a>
+     </td>
+     <td>2D-ﬁx.</td>
+    </tr>
+    <tr id="RTK_FIX_TYPE_3D">
+     <td>3</td>
+     <td>
+      <a href="#RTK_FIX_TYPE_3D">RTK_FIX_TYPE_3D</a>
+     </td>
+     <td>3D-ﬁx.</td>
+    </tr>
+    <tr id="RTK_FIX_TYPE_COMBINED">
+     <td>4</td>
+     <td>
+      <a href="#RTK_FIX_TYPE_COMBINED">RTK_FIX_TYPE_COMBINED</a>
+     </td>
+     <td>GNSS + dead reckoning combined.</td>
+    </tr>
+    <tr id="RTK_FIX_TYPE_TIMEONLY">
+     <td>5</td>
+     <td>
+      <a href="#RTK_FIX_TYPE_TIMEONLY">RTK_FIX_TYPE_TIMEONLY</a>
+     </td>
+     <td>Time only ﬁx.</td>
+    </tr>
+   </tbody>
+  </table>
+  <h3 id="RTK_GNSS_FLAGS">RTK_GNSS_FLAGS</h3>
+  <p>
+   <a href="#enums">
+    [Enum]
+   </a>These encode the gnss_flags sent as part of the <a href="#RTK_TM">RTK_TM</a> message.</p>
+  <table class="sortable">
+   <thead>
+    <tr>
+     <th>Value</th>
+     <th>Field Name</th>
+     <th>Description</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr id="RTK_GNSS_FLAGS_SRVIN_ACTIVE">
+     <td>1</td>
+     <td>
+      <a href="#RTK_GNSS_FLAGS_SRVIN_ACTIVE">RTK_GNSS_FLAGS_SRVIN_ACTIVE</a>
+     </td>
+     <td>0x01 Survey-in in progress</td>
+    </tr>
+    <tr id="RTK_GNSS_FLAGS_SRVIN_VALID">
+     <td>2</td>
+     <td>
+      <a href="#RTK_GNSS_FLAGS_SRVIN_VALID">RTK_GNSS_FLAGS_SRVIN_VALID</a>
+     </td>
+     <td>0x02 Survey-in valid</td>
+    </tr>
+    <tr id="RTK_GNSS_FLAGS_FIX_VALID">
+     <td>4</td>
+     <td>
+      <a href="#RTK_GNSS_FLAGS_FIX_VALID">RTK_GNSS_FLAGS_FIX_VALID</a>
+     </td>
+     <td>0x04 Fix type, DOP and accuracy are valid</td>
+    </tr>
+    <tr id="RTK_GNSS_FLAGS_POS_VALID">
+     <td>8</td>
+     <td>
+      <a href="#RTK_GNSS_FLAGS_POS_VALID">RTK_GNSS_FLAGS_POS_VALID</a>
+     </td>
+     <td>0x08 Latitude, longitude and altitude are valid</td>
+    </tr>
+    <tr id="RTK_GNSS_FLAGS_TIME_VALID">
+     <td>16</td>
+     <td>
+      <a href="#RTK_GNSS_FLAGS_TIME_VALID">RTK_GNSS_FLAGS_TIME_VALID</a>
+     </td>
+     <td>0x10 Unix timestamp valid. Initial value is reset, sets after first received UBX-NAV-PVT message</td>
+    </tr>
+    <tr id="RTK_GNSS_FLAGS_CONFIGURED">
+     <td>32</td>
+     <td>
+      <a href="#RTK_GNSS_FLAGS_CONFIGURED">RTK_GNSS_FLAGS_CONFIGURED</a>
+     </td>
+     <td>0x20 GNSS is configured</td>
+    </tr>
+   </tbody>
+  </table>
+  <h3 id="RTK_DEVICE_FLAGS">RTK_DEVICE_FLAGS</h3>
+  <p>
+   <a href="#enums">
+    [Enum]
+   </a>These encode the device_status_flags sent as part of the <a href="#RTK_TM">RTK_TM</a> message.</p>
+  <table class="sortable">
+   <thead>
+    <tr>
+     <th>Value</th>
+     <th>Field Name</th>
+     <th>Description</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr id="RTK_DEVICE_FLAGS_ETH_INIT">
+     <td>1</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_ETH_INIT">RTK_DEVICE_FLAGS_ETH_INIT</a>
+     </td>
+     <td>0x01 Ethernet initialized</td>
+    </tr>
+    <tr id="RTK_DEVICE_FLAGS_WIFI_INIT">
+     <td>2</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_WIFI_INIT">RTK_DEVICE_FLAGS_WIFI_INIT</a>
+     </td>
+     <td>0x02 Wi-Fi initialized</td>
+    </tr>
+    <tr id="RTK_DEVICE_FLAGS_LORA24_INIT">
+     <td>4</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_LORA24_INIT">RTK_DEVICE_FLAGS_LORA24_INIT</a>
+     </td>
+     <td>0x04 LoRa 2.4GHz initialized</td>
+    </tr>
+    <tr id="RTK_DEVICE_FLAGS_LORA900_INIT">
+     <td>8</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_LORA900_INIT">RTK_DEVICE_FLAGS_LORA900_INIT</a>
+     </td>
+     <td>0x08 LoRa 900MHz initialized</td>
+    </tr>
+    <tr id="RTK_DEVICE_FLAGS_GNSS_INIT">
+     <td>16</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_GNSS_INIT">RTK_DEVICE_FLAGS_GNSS_INIT</a>
+     </td>
+     <td>0x10 GNSS initialized</td>
+    </tr>
+    <tr id="RTK_DEVICE_FLAGS_USB_INIT">
+     <td>32</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_USB_INIT">RTK_DEVICE_FLAGS_USB_INIT</a>
+     </td>
+     <td>0x20 USB PD initialized</td>
+    </tr>
+    <tr id="RTK_DEVICE_FLAGS_EEPROM_INIT">
+     <td>64</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_EEPROM_INIT">RTK_DEVICE_FLAGS_EEPROM_INIT</a>
+     </td>
+     <td>0x20 EEPROM initialized</td>
+    </tr>
+    <tr id="RTK_DEVICE_FLAGS_SD_INIT">
+     <td>128</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_SD_INIT">RTK_DEVICE_FLAGS_SD_INIT</a>
+     </td>
+     <td>0x80 SD card initialized</td>
+    </tr>
+    <tr id="RTK_DEVICE_FLAGS_CHARGER1_INIT">
+     <td>256</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_CHARGER1_INIT">RTK_DEVICE_FLAGS_CHARGER1_INIT</a>
+     </td>
+     <td>0x100 Charger 1 initialized</td>
+    </tr>
+    <tr id="RTK_DEVICE_FLAGS_CHARGER2_INIT">
+     <td>512</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_CHARGER2_INIT">RTK_DEVICE_FLAGS_CHARGER2_INIT</a>
+     </td>
+     <td>0x200 Charger 2 initialized</td>
+    </tr>
+    <tr id="RTK_DEVICE_FLAGS_RTK_READY">
+     <td>1024</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_RTK_READY">RTK_DEVICE_FLAGS_RTK_READY</a>
+     </td>
+     <td>0x400 RTK READY</td>
+    </tr>
+    <tr id="RTK_DEVICE_FLAGS_POSCASH_VALID">
+     <td>2048</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_POSCASH_VALID">RTK_DEVICE_FLAGS_POSCASH_VALID</a>
+     </td>
+     <td>0x800 Cashed position valid</td>
+    </tr>
+    <tr id="RTK_DEVICE_FLAGS_RTCM_ENABLED">
+     <td>4096</td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS_RTCM_ENABLED">RTK_DEVICE_FLAGS_RTCM_ENABLED</a>
+     </td>
+     <td>0x1000 RTCM ENABLED</td>
+    </tr>
+   </tbody>
+  </table>
+  <h3 id="RTK_POWER_SUPPLY_TYPE">RTK_POWER_SUPPLY_TYPE</h3>
+  <p>
+   <a href="#enums">
+    [Enum]
+   </a>
+  </p>
+  <table class="sortable">
+   <thead>
+    <tr>
+     <th>Value</th>
+     <th>Field Name</th>
+     <th>Description</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr id="RTK_POWER_SUPPLY_TYPE_NONE">
+     <td>0</td>
+     <td>
+      <a href="#RTK_POWER_SUPPLY_TYPE_NONE">RTK_POWER_SUPPLY_TYPE_NONE</a>
+     </td>
+     <td>N/A</td>
+    </tr>
+    <tr id="RTK_POWER_SUPPLY_TYPE_POE">
+     <td>1</td>
+     <td>
+      <a href="#RTK_POWER_SUPPLY_TYPE_POE">RTK_POWER_SUPPLY_TYPE_POE</a>
+     </td>
+     <td>POE.</td>
+    </tr>
+    <tr id="RTK_POWER_SUPPLY_TYPE_USBPD">
+     <td>2</td>
+     <td>
+      <a href="#RTK_POWER_SUPPLY_TYPE_USBPD">RTK_POWER_SUPPLY_TYPE_USBPD</a>
+     </td>
+     <td>USB PD.</td>
+    </tr>
+    <tr id="RTK_POWER_SUPPLY_TYPE_USB5V">
+     <td>3</td>
+     <td>
+      <a href="#RTK_POWER_SUPPLY_TYPE_USB5V">RTK_POWER_SUPPLY_TYPE_USB5V</a>
+     </td>
+     <td>USB 5V.</td>
+    </tr>
+    <tr id="RTK_POWER_SUPPLY_TYPE_BAT1">
+     <td>4</td>
+     <td>
+      <a href="#RTK_POWER_SUPPLY_TYPE_BAT1">RTK_POWER_SUPPLY_TYPE_BAT1</a>
+     </td>
+     <td>Battery 1.</td>
+    </tr>
+    <tr id="RTK_POWER_SUPPLY_TYPE_BAT2">
+     <td>5</td>
+     <td>
+      <a href="#RTK_POWER_SUPPLY_TYPE_BAT2">RTK_POWER_SUPPLY_TYPE_BAT2</a>
+     </td>
+     <td>Battery 2.</td>
+    </tr>
+   </tbody>
+  </table>
+  <h3 id="RTK_BATTERY_FLAGS">RTK_BATTERY_FLAGS</h3>
+  <p>
+   <a href="#enums">
+    [Enum]
+   </a>These encode the bat1_flags and bat2_flags sent as part of the <a href="#RTK_TM">RTK_TM</a> message.</p>
+  <table class="sortable">
+   <thead>
+    <tr>
+     <th>Value</th>
+     <th>Field Name</th>
+     <th>Description</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr id="RTK_BATTERY_FLAGS_PRESENT">
+     <td>1</td>
+     <td>
+      <a href="#RTK_BATTERY_FLAGS_PRESENT">RTK_BATTERY_FLAGS_PRESENT</a>
+     </td>
+     <td>0x01 Battery is present</td>
+    </tr>
+    <tr id="RTK_BATTERY_FLAGS_CHARGING">
+     <td>2</td>
+     <td>
+      <a href="#RTK_BATTERY_FLAGS_CHARGING">RTK_BATTERY_FLAGS_CHARGING</a>
+     </td>
+     <td>0x02 Battery is charging</td>
+    </tr>
+   </tbody>
+  </table>
   <a id="MAV_CMD">
   </a>
   <h2 id="mav_commands">MAVLink Commands (<a href="#mav_commands">MAV_CMD</a>)</h2>
@@ -374,6 +687,313 @@
      <td>
      </td>
      <td>Battery energy remaining, -1: Battery remaining energy not sent by autopilot</td>
+    </tr>
+   </tbody>
+  </table>
+  <h3 id="RTK_TM">RTK_TM (<a href="#RTK_TM">
+    #11200
+   </a>
+   )
+  </h3>
+  <p>
+   <a href="#messages">
+    [Message]
+   </a>
+   <strong>
+    (MAVLink 2)
+   </strong>RTK telemetry.</p>
+  <table class="sortable">
+   <thead>
+    <tr>
+     <th>Field Name</th>
+     <th>Type</th>
+     <th>Units</th>
+     <th>Values</th>
+     <th>Description</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td>timestamp_unix</td>
+     <td>uint64_t</td>
+     <td>us</td>
+     <td>
+     </td>
+     <td>Timestamp (microseconds since UNIX epoch).</td>
+    </tr>
+    <tr>
+     <td>timestamp</td>
+     <td>uint32_t</td>
+     <td>ms</td>
+     <td>
+     </td>
+     <td>Timestamp (milliseconds since system boot).</td>
+    </tr>
+    <tr>
+     <td>lat</td>
+     <td>int32_t</td>
+     <td>degE7</td>
+     <td>
+     </td>
+     <td>Latitude.</td>
+    </tr>
+    <tr>
+     <td>lon</td>
+     <td>int32_t</td>
+     <td>degE7</td>
+     <td>
+     </td>
+     <td>Longitude.</td>
+    </tr>
+    <tr>
+     <td>alt</td>
+     <td>int32_t</td>
+     <td>mm</td>
+     <td>
+     </td>
+     <td>Altitude (MSL).</td>
+    </tr>
+    <tr>
+     <td>h_acc</td>
+     <td>uint32_t</td>
+     <td>mm</td>
+     <td>
+     </td>
+     <td>Horizontal position uncertainty (standard deviation).</td>
+    </tr>
+    <tr>
+     <td>v_acc</td>
+     <td>uint32_t</td>
+     <td>mm</td>
+     <td>
+     </td>
+     <td>Altitude uncertainty (standard deviation).</td>
+    </tr>
+    <tr>
+     <td>srvin_dur</td>
+     <td>uint32_t</td>
+     <td>s</td>
+     <td>
+     </td>
+     <td>Passed survey-in observation time.</td>
+    </tr>
+    <tr>
+     <td>srvin_mean_acc</td>
+     <td>uint32_t</td>
+     <td>0.1 mm</td>
+     <td>
+     </td>
+     <td>Current survey-in mean position accuracy.</td>
+    </tr>
+    <tr>
+     <td>srvin_obs</td>
+     <td>uint32_t</td>
+     <td>
+     </td>
+     <td>
+     </td>
+     <td>Number of position observations used during survey-in.</td>
+    </tr>
+    <tr>
+     <td>pdop</td>
+     <td>uint16_t</td>
+     <td>0.01</td>
+     <td>
+     </td>
+     <td>Position dilution of precision.</td>
+    </tr>
+    <tr>
+     <td>fix_type</td>
+     <td>uint8_t</td>
+     <td>
+     </td>
+     <td>
+      <a href="#RTK_FIX_TYPE">RTK_FIX_TYPE</a>
+     </td>
+     <td>GPS fix type.</td>
+    </tr>
+    <tr>
+     <td>num_satellites</td>
+     <td>uint8_t</td>
+     <td>
+     </td>
+     <td>
+     </td>
+     <td>Number of satellites used in Nav Solution.</td>
+    </tr>
+    <tr>
+     <td>gnss_flags</td>
+     <td>uint16_t</td>
+     <td>
+     </td>
+     <td>
+      <a href="#RTK_GNSS_FLAGS">RTK_GNSS_FLAGS</a>
+     </td>
+     <td>Bitmap showing GNSS status flags.</td>
+    </tr>
+    <tr>
+     <td>device_status_flags</td>
+     <td>uint16_t</td>
+     <td>
+     </td>
+     <td>
+      <a href="#RTK_DEVICE_FLAGS">RTK_DEVICE_FLAGS</a>
+     </td>
+     <td>Bitmap showing device status flags.</td>
+    </tr>
+    <tr>
+     <td>rtcm1005_cnt</td>
+     <td>uint16_t</td>
+     <td>
+     </td>
+     <td>
+     </td>
+     <td>RTCM1005 message count.</td>
+    </tr>
+    <tr>
+     <td>rtcm1074_cnt</td>
+     <td>uint16_t</td>
+     <td>
+     </td>
+     <td>
+     </td>
+     <td>RTCM1074 message count.</td>
+    </tr>
+    <tr>
+     <td>rtcm1084_cnt</td>
+     <td>uint16_t</td>
+     <td>
+     </td>
+     <td>
+     </td>
+     <td>RTCM1084 message count.</td>
+    </tr>
+    <tr>
+     <td>rtcm1094_cnt</td>
+     <td>uint16_t</td>
+     <td>
+     </td>
+     <td>
+     </td>
+     <td>RTCM1094 message count.</td>
+    </tr>
+    <tr>
+     <td>rtcm1124_cnt</td>
+     <td>uint16_t</td>
+     <td>
+     </td>
+     <td>
+     </td>
+     <td>RTCM1124 message count.</td>
+    </tr>
+    <tr>
+     <td>rtcm1230_cnt</td>
+     <td>uint16_t</td>
+     <td>
+     </td>
+     <td>
+     </td>
+     <td>RTCM1230 message count.</td>
+    </tr>
+    <tr>
+     <td>nav_pvt_cnt</td>
+     <td>uint16_t</td>
+     <td>
+     </td>
+     <td>
+     </td>
+     <td>NAV-PVT message count.</td>
+    </tr>
+    <tr>
+     <td>nav_svin_cnt</td>
+     <td>uint16_t</td>
+     <td>
+     </td>
+     <td>
+     </td>
+     <td>NAV-SVIN message count.</td>
+    </tr>
+    <tr>
+     <td>psup_type</td>
+     <td>uint8_t</td>
+     <td>
+     </td>
+     <td>
+      <a href="#RTK_POWER_SUPPLY_TYPE">RTK_POWER_SUPPLY_TYPE</a>
+     </td>
+     <td>Power supply type.</td>
+    </tr>
+    <tr>
+     <td>psup_voltage</td>
+     <td>uint16_t</td>
+     <td>mV</td>
+     <td>
+     </td>
+     <td>Power supply budget voltage.</td>
+    </tr>
+    <tr>
+     <td>psup_current</td>
+     <td>uint16_t</td>
+     <td>mA</td>
+     <td>
+     </td>
+     <td>Power supply budget current.</td>
+    </tr>
+    <tr>
+     <td>bat1_voltage</td>
+     <td>uint16_t</td>
+     <td>mV</td>
+     <td>
+     </td>
+     <td>Battery 1 voltage.</td>
+    </tr>
+    <tr>
+     <td>bat2_voltage</td>
+     <td>uint16_t</td>
+     <td>mV</td>
+     <td>
+     </td>
+     <td>Battery 2 voltage.</td>
+    </tr>
+    <tr>
+     <td>bat1_soc</td>
+     <td>uint8_t</td>
+     <td>
+      %
+     </td>
+     <td>
+     </td>
+     <td>Battery 1 state of charge.</td>
+    </tr>
+    <tr>
+     <td>bat2_soc</td>
+     <td>uint8_t</td>
+     <td>
+      %
+     </td>
+     <td>
+     </td>
+     <td>Battery 2 state of charge.</td>
+    </tr>
+    <tr>
+     <td>bat1_flags</td>
+     <td>uint8_t</td>
+     <td>
+     </td>
+     <td>
+      <a href="#RTK_BATTERY_FLAGS">RTK_BATTERY_FLAGS</a>
+     </td>
+     <td>Bitmap showing battery 1 status flags.</td>
+    </tr>
+    <tr>
+     <td>bat2_flags</td>
+     <td>uint8_t</td>
+     <td>
+     </td>
+     <td>
+      <a href="#RTK_BATTERY_FLAGS">RTK_BATTERY_FLAGS</a>
+     </td>
+     <td>Bitmap showing battery 2 status flags.</td>
     </tr>
    </tbody>
   </table>

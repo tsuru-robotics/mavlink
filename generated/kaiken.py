@@ -381,6 +381,97 @@ enums["FMU_FAILSAFE_FLAGS"][128] = EnumEntry("FMU_FAILSAFE_FLAGS_PATH", """0x80 
 FMU_FAILSAFE_FLAGS_ENUM_END = 129
 enums["FMU_FAILSAFE_FLAGS"][129] = EnumEntry("FMU_FAILSAFE_FLAGS_ENUM_END", """""")
 
+# RTK_FIX_TYPE
+enums["RTK_FIX_TYPE"] = {}
+RTK_FIX_TYPE_NOFIX = 0
+enums["RTK_FIX_TYPE"][0] = EnumEntry("RTK_FIX_TYPE_NOFIX", """No ﬁx.""")
+RTK_FIX_TYPE_DEADREC = 1
+enums["RTK_FIX_TYPE"][1] = EnumEntry("RTK_FIX_TYPE_DEADREC", """dead reckoning only.""")
+RTK_FIX_TYPE_2D = 2
+enums["RTK_FIX_TYPE"][2] = EnumEntry("RTK_FIX_TYPE_2D", """2D-ﬁx.""")
+RTK_FIX_TYPE_3D = 3
+enums["RTK_FIX_TYPE"][3] = EnumEntry("RTK_FIX_TYPE_3D", """3D-ﬁx.""")
+RTK_FIX_TYPE_COMBINED = 4
+enums["RTK_FIX_TYPE"][4] = EnumEntry("RTK_FIX_TYPE_COMBINED", """GNSS + dead reckoning combined.""")
+RTK_FIX_TYPE_TIMEONLY = 5
+enums["RTK_FIX_TYPE"][5] = EnumEntry("RTK_FIX_TYPE_TIMEONLY", """Time only ﬁx.""")
+RTK_FIX_TYPE_ENUM_END = 6
+enums["RTK_FIX_TYPE"][6] = EnumEntry("RTK_FIX_TYPE_ENUM_END", """""")
+
+# RTK_GNSS_FLAGS
+enums["RTK_GNSS_FLAGS"] = {}
+RTK_GNSS_FLAGS_SRVIN_ACTIVE = 1
+enums["RTK_GNSS_FLAGS"][1] = EnumEntry("RTK_GNSS_FLAGS_SRVIN_ACTIVE", """0x01 Survey-in in progress""")
+RTK_GNSS_FLAGS_SRVIN_VALID = 2
+enums["RTK_GNSS_FLAGS"][2] = EnumEntry("RTK_GNSS_FLAGS_SRVIN_VALID", """0x02 Survey-in valid""")
+RTK_GNSS_FLAGS_FIX_VALID = 4
+enums["RTK_GNSS_FLAGS"][4] = EnumEntry("RTK_GNSS_FLAGS_FIX_VALID", """0x04 Fix type, DOP and accuracy are valid""")
+RTK_GNSS_FLAGS_POS_VALID = 8
+enums["RTK_GNSS_FLAGS"][8] = EnumEntry("RTK_GNSS_FLAGS_POS_VALID", """0x08 Latitude, longitude and altitude are valid""")
+RTK_GNSS_FLAGS_TIME_VALID = 16
+enums["RTK_GNSS_FLAGS"][16] = EnumEntry("RTK_GNSS_FLAGS_TIME_VALID", """0x10 Unix timestamp valid. Initial value is reset, sets after first received UBX-NAV-PVT message""")
+RTK_GNSS_FLAGS_CONFIGURED = 32
+enums["RTK_GNSS_FLAGS"][32] = EnumEntry("RTK_GNSS_FLAGS_CONFIGURED", """0x20 GNSS is configured """)
+RTK_GNSS_FLAGS_ENUM_END = 33
+enums["RTK_GNSS_FLAGS"][33] = EnumEntry("RTK_GNSS_FLAGS_ENUM_END", """""")
+
+# RTK_DEVICE_FLAGS
+enums["RTK_DEVICE_FLAGS"] = {}
+RTK_DEVICE_FLAGS_ETH_INIT = 1
+enums["RTK_DEVICE_FLAGS"][1] = EnumEntry("RTK_DEVICE_FLAGS_ETH_INIT", """0x01 Ethernet initialized""")
+RTK_DEVICE_FLAGS_WIFI_INIT = 2
+enums["RTK_DEVICE_FLAGS"][2] = EnumEntry("RTK_DEVICE_FLAGS_WIFI_INIT", """0x02 Wi-Fi initialized""")
+RTK_DEVICE_FLAGS_LORA24_INIT = 4
+enums["RTK_DEVICE_FLAGS"][4] = EnumEntry("RTK_DEVICE_FLAGS_LORA24_INIT", """0x04 LoRa 2.4GHz initialized""")
+RTK_DEVICE_FLAGS_LORA900_INIT = 8
+enums["RTK_DEVICE_FLAGS"][8] = EnumEntry("RTK_DEVICE_FLAGS_LORA900_INIT", """0x08 LoRa 900MHz initialized""")
+RTK_DEVICE_FLAGS_GNSS_INIT = 16
+enums["RTK_DEVICE_FLAGS"][16] = EnumEntry("RTK_DEVICE_FLAGS_GNSS_INIT", """0x10 GNSS initialized""")
+RTK_DEVICE_FLAGS_USB_INIT = 32
+enums["RTK_DEVICE_FLAGS"][32] = EnumEntry("RTK_DEVICE_FLAGS_USB_INIT", """0x20 USB PD initialized""")
+RTK_DEVICE_FLAGS_EEPROM_INIT = 64
+enums["RTK_DEVICE_FLAGS"][64] = EnumEntry("RTK_DEVICE_FLAGS_EEPROM_INIT", """0x20 EEPROM initialized""")
+RTK_DEVICE_FLAGS_SD_INIT = 128
+enums["RTK_DEVICE_FLAGS"][128] = EnumEntry("RTK_DEVICE_FLAGS_SD_INIT", """0x80 SD card initialized""")
+RTK_DEVICE_FLAGS_CHARGER1_INIT = 256
+enums["RTK_DEVICE_FLAGS"][256] = EnumEntry("RTK_DEVICE_FLAGS_CHARGER1_INIT", """0x100 Charger 1 initialized""")
+RTK_DEVICE_FLAGS_CHARGER2_INIT = 512
+enums["RTK_DEVICE_FLAGS"][512] = EnumEntry("RTK_DEVICE_FLAGS_CHARGER2_INIT", """0x200 Charger 2 initialized""")
+RTK_DEVICE_FLAGS_RTK_READY = 1024
+enums["RTK_DEVICE_FLAGS"][1024] = EnumEntry("RTK_DEVICE_FLAGS_RTK_READY", """0x400 RTK READY""")
+RTK_DEVICE_FLAGS_POSCASH_VALID = 2048
+enums["RTK_DEVICE_FLAGS"][2048] = EnumEntry("RTK_DEVICE_FLAGS_POSCASH_VALID", """0x800 Cashed position valid""")
+RTK_DEVICE_FLAGS_RTCM_ENABLED = 4096
+enums["RTK_DEVICE_FLAGS"][4096] = EnumEntry("RTK_DEVICE_FLAGS_RTCM_ENABLED", """0x1000 RTCM ENABLED""")
+RTK_DEVICE_FLAGS_ENUM_END = 4097
+enums["RTK_DEVICE_FLAGS"][4097] = EnumEntry("RTK_DEVICE_FLAGS_ENUM_END", """""")
+
+# RTK_POWER_SUPPLY_TYPE
+enums["RTK_POWER_SUPPLY_TYPE"] = {}
+RTK_POWER_SUPPLY_TYPE_NONE = 0
+enums["RTK_POWER_SUPPLY_TYPE"][0] = EnumEntry("RTK_POWER_SUPPLY_TYPE_NONE", """N/A""")
+RTK_POWER_SUPPLY_TYPE_POE = 1
+enums["RTK_POWER_SUPPLY_TYPE"][1] = EnumEntry("RTK_POWER_SUPPLY_TYPE_POE", """POE.""")
+RTK_POWER_SUPPLY_TYPE_USBPD = 2
+enums["RTK_POWER_SUPPLY_TYPE"][2] = EnumEntry("RTK_POWER_SUPPLY_TYPE_USBPD", """USB PD.""")
+RTK_POWER_SUPPLY_TYPE_USB5V = 3
+enums["RTK_POWER_SUPPLY_TYPE"][3] = EnumEntry("RTK_POWER_SUPPLY_TYPE_USB5V", """USB 5V.""")
+RTK_POWER_SUPPLY_TYPE_BAT1 = 4
+enums["RTK_POWER_SUPPLY_TYPE"][4] = EnumEntry("RTK_POWER_SUPPLY_TYPE_BAT1", """Battery 1.""")
+RTK_POWER_SUPPLY_TYPE_BAT2 = 5
+enums["RTK_POWER_SUPPLY_TYPE"][5] = EnumEntry("RTK_POWER_SUPPLY_TYPE_BAT2", """Battery 2.""")
+RTK_POWER_SUPPLY_TYPE_ENUM_END = 6
+enums["RTK_POWER_SUPPLY_TYPE"][6] = EnumEntry("RTK_POWER_SUPPLY_TYPE_ENUM_END", """""")
+
+# RTK_BATTERY_FLAGS
+enums["RTK_BATTERY_FLAGS"] = {}
+RTK_BATTERY_FLAGS_PRESENT = 1
+enums["RTK_BATTERY_FLAGS"][1] = EnumEntry("RTK_BATTERY_FLAGS_PRESENT", """0x01 Battery is present""")
+RTK_BATTERY_FLAGS_CHARGING = 2
+enums["RTK_BATTERY_FLAGS"][2] = EnumEntry("RTK_BATTERY_FLAGS_CHARGING", """0x02 Battery is charging""")
+RTK_BATTERY_FLAGS_ENUM_END = 3
+enums["RTK_BATTERY_FLAGS"][3] = EnumEntry("RTK_BATTERY_FLAGS_ENUM_END", """""")
+
 # WIFI_NETWORK_SECURITY
 enums["WIFI_NETWORK_SECURITY"] = {}
 WIFI_NETWORK_SECURITY_UNDEFINED = 0
@@ -7111,6 +7202,7 @@ enums["MAV_COMPONENT"][251] = EnumEntry("MAV_COMPONENT_ENUM_END", """""")
 MAVLINK_MSG_ID_BAD_DATA = -1
 MAVLINK_MSG_ID_UNKNOWN = -2
 MAVLINK_MSG_ID_FMU_TM = 11103
+MAVLINK_MSG_ID_RTK_TM = 11200
 MAVLINK_MSG_ID_PARAM_ACK_TRANSACTION = 19
 MAVLINK_MSG_ID_MISSION_CHECKSUM = 53
 MAVLINK_MSG_ID_AIRSPEED = 295
@@ -7474,6 +7566,75 @@ class MAVLink_fmu_tm_message(MAVLink_message):
 # Define name on the class for backwards compatibility (it is now msgname).
 # Done with setattr to hide the class variable from mypy.
 setattr(MAVLink_fmu_tm_message, "name", mavlink_msg_deprecated_name_property())
+
+
+class MAVLink_rtk_tm_message(MAVLink_message):
+    """
+    RTK telemetry.
+    """
+
+    id = MAVLINK_MSG_ID_RTK_TM
+    msgname = "RTK_TM"
+    fieldnames = ["timestamp_unix", "timestamp", "lat", "lon", "alt", "h_acc", "v_acc", "srvin_dur", "srvin_mean_acc", "srvin_obs", "pdop", "fix_type", "num_satellites", "gnss_flags", "device_status_flags", "rtcm1005_cnt", "rtcm1074_cnt", "rtcm1084_cnt", "rtcm1094_cnt", "rtcm1124_cnt", "rtcm1230_cnt", "nav_pvt_cnt", "nav_svin_cnt", "psup_type", "psup_voltage", "psup_current", "bat1_voltage", "bat2_voltage", "bat1_soc", "bat2_soc", "bat1_flags", "bat2_flags"]
+    ordered_fieldnames = ["timestamp_unix", "timestamp", "lat", "lon", "alt", "h_acc", "v_acc", "srvin_dur", "srvin_mean_acc", "srvin_obs", "pdop", "gnss_flags", "device_status_flags", "rtcm1005_cnt", "rtcm1074_cnt", "rtcm1084_cnt", "rtcm1094_cnt", "rtcm1124_cnt", "rtcm1230_cnt", "nav_pvt_cnt", "nav_svin_cnt", "psup_voltage", "psup_current", "bat1_voltage", "bat2_voltage", "fix_type", "num_satellites", "psup_type", "bat1_soc", "bat2_soc", "bat1_flags", "bat2_flags"]
+    fieldtypes = ["uint64_t", "uint32_t", "int32_t", "int32_t", "int32_t", "uint32_t", "uint32_t", "uint32_t", "uint32_t", "uint32_t", "uint16_t", "uint8_t", "uint8_t", "uint16_t", "uint16_t", "uint16_t", "uint16_t", "uint16_t", "uint16_t", "uint16_t", "uint16_t", "uint16_t", "uint16_t", "uint8_t", "uint16_t", "uint16_t", "uint16_t", "uint16_t", "uint8_t", "uint8_t", "uint8_t", "uint8_t"]
+    fielddisplays_by_name: Dict[str, str] = {"gnss_flags": "bitmask", "device_status_flags": "bitmask", "bat1_flags": "bitmask", "bat2_flags": "bitmask"}
+    fieldenums_by_name: Dict[str, str] = {"fix_type": "RTK_FIX_TYPE", "gnss_flags": "RTK_GNSS_FLAGS", "device_status_flags": "RTK_DEVICE_FLAGS", "psup_type": "RTK_POWER_SUPPLY_TYPE", "bat1_flags": "RTK_BATTERY_FLAGS", "bat2_flags": "RTK_BATTERY_FLAGS"}
+    fieldunits_by_name: Dict[str, str] = {"timestamp_unix": "us", "timestamp": "ms", "lat": "degE7", "lon": "degE7", "alt": "mm", "h_acc": "mm", "v_acc": "mm", "srvin_dur": "s", "srvin_mean_acc": "0.1 mm", "pdop": "0.01", "psup_voltage": "mV", "psup_current": "mA", "bat1_voltage": "mV", "bat2_voltage": "mV", "bat1_soc": "%", "bat2_soc": "%"}
+    native_format = bytearray(b"<QIiiiIIIIIHHHHHHHHHHHHHHHBBBBBBB")
+    orders = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 26, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 27, 21, 22, 23, 24, 28, 29, 30, 31]
+    lengths = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    array_lengths = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    crc_extra = 196
+    unpacker = struct.Struct("<QIiiiIIIIIHHHHHHHHHHHHHHHBBBBBBB")
+    instance_field = None
+    instance_offset = -1
+
+    def __init__(self, timestamp_unix: int, timestamp: int, lat: int, lon: int, alt: int, h_acc: int, v_acc: int, srvin_dur: int, srvin_mean_acc: int, srvin_obs: int, pdop: int, fix_type: int, num_satellites: int, gnss_flags: int, device_status_flags: int, rtcm1005_cnt: int, rtcm1074_cnt: int, rtcm1084_cnt: int, rtcm1094_cnt: int, rtcm1124_cnt: int, rtcm1230_cnt: int, nav_pvt_cnt: int, nav_svin_cnt: int, psup_type: int, psup_voltage: int, psup_current: int, bat1_voltage: int, bat2_voltage: int, bat1_soc: int, bat2_soc: int, bat1_flags: int, bat2_flags: int):
+        MAVLink_message.__init__(self, MAVLink_rtk_tm_message.id, MAVLink_rtk_tm_message.msgname)
+        self._fieldnames = MAVLink_rtk_tm_message.fieldnames
+        self._instance_field = MAVLink_rtk_tm_message.instance_field
+        self._instance_offset = MAVLink_rtk_tm_message.instance_offset
+        self.timestamp_unix = timestamp_unix
+        self.timestamp = timestamp
+        self.lat = lat
+        self.lon = lon
+        self.alt = alt
+        self.h_acc = h_acc
+        self.v_acc = v_acc
+        self.srvin_dur = srvin_dur
+        self.srvin_mean_acc = srvin_mean_acc
+        self.srvin_obs = srvin_obs
+        self.pdop = pdop
+        self.fix_type = fix_type
+        self.num_satellites = num_satellites
+        self.gnss_flags = gnss_flags
+        self.device_status_flags = device_status_flags
+        self.rtcm1005_cnt = rtcm1005_cnt
+        self.rtcm1074_cnt = rtcm1074_cnt
+        self.rtcm1084_cnt = rtcm1084_cnt
+        self.rtcm1094_cnt = rtcm1094_cnt
+        self.rtcm1124_cnt = rtcm1124_cnt
+        self.rtcm1230_cnt = rtcm1230_cnt
+        self.nav_pvt_cnt = nav_pvt_cnt
+        self.nav_svin_cnt = nav_svin_cnt
+        self.psup_type = psup_type
+        self.psup_voltage = psup_voltage
+        self.psup_current = psup_current
+        self.bat1_voltage = bat1_voltage
+        self.bat2_voltage = bat2_voltage
+        self.bat1_soc = bat1_soc
+        self.bat2_soc = bat2_soc
+        self.bat1_flags = bat1_flags
+        self.bat2_flags = bat2_flags
+
+    def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.timestamp_unix, self.timestamp, self.lat, self.lon, self.alt, self.h_acc, self.v_acc, self.srvin_dur, self.srvin_mean_acc, self.srvin_obs, self.pdop, self.gnss_flags, self.device_status_flags, self.rtcm1005_cnt, self.rtcm1074_cnt, self.rtcm1084_cnt, self.rtcm1094_cnt, self.rtcm1124_cnt, self.rtcm1230_cnt, self.nav_pvt_cnt, self.nav_svin_cnt, self.psup_voltage, self.psup_current, self.bat1_voltage, self.bat2_voltage, self.fix_type, self.num_satellites, self.psup_type, self.bat1_soc, self.bat2_soc, self.bat1_flags, self.bat2_flags), force_mavlink1=force_mavlink1)
+
+
+# Define name on the class for backwards compatibility (it is now msgname).
+# Done with setattr to hide the class variable from mypy.
+setattr(MAVLink_rtk_tm_message, "name", mavlink_msg_deprecated_name_property())
 
 
 class MAVLink_param_ack_transaction_message(MAVLink_message):
@@ -21927,6 +22088,7 @@ setattr(MAVLink_protocol_version_message, "name", mavlink_msg_deprecated_name_pr
 
 mavlink_map: Dict[int, Type[MAVLink_message]] = {
     MAVLINK_MSG_ID_FMU_TM: MAVLink_fmu_tm_message,
+    MAVLINK_MSG_ID_RTK_TM: MAVLink_rtk_tm_message,
     MAVLINK_MSG_ID_PARAM_ACK_TRANSACTION: MAVLink_param_ack_transaction_message,
     MAVLINK_MSG_ID_MISSION_CHECKSUM: MAVLink_mission_checksum_message,
     MAVLINK_MSG_ID_AIRSPEED: MAVLink_airspeed_message,
@@ -22696,6 +22858,86 @@ class MAVLink(object):
 
         """
         self.send(self.fmu_tm_encode(time, satellites_visible, fix_type, hdg, lat, lon, alt, flight_state, rtcm_rate_wifi, rtcm_rate_lora, flags, component_present, component_health, failsafe_flags, voltage_battery, current_battery, battery_remaining), force_mavlink1=force_mavlink1)
+
+    def rtk_tm_encode(self, timestamp_unix: int, timestamp: int, lat: int, lon: int, alt: int, h_acc: int, v_acc: int, srvin_dur: int, srvin_mean_acc: int, srvin_obs: int, pdop: int, fix_type: int, num_satellites: int, gnss_flags: int, device_status_flags: int, rtcm1005_cnt: int, rtcm1074_cnt: int, rtcm1084_cnt: int, rtcm1094_cnt: int, rtcm1124_cnt: int, rtcm1230_cnt: int, nav_pvt_cnt: int, nav_svin_cnt: int, psup_type: int, psup_voltage: int, psup_current: int, bat1_voltage: int, bat2_voltage: int, bat1_soc: int, bat2_soc: int, bat1_flags: int, bat2_flags: int) -> MAVLink_rtk_tm_message:
+        """
+        RTK telemetry.
+
+        timestamp_unix            : Timestamp (microseconds since UNIX epoch). [us] (type:uint64_t)
+        timestamp                 : Timestamp (milliseconds since system boot). [ms] (type:uint32_t)
+        lat                       : Latitude. [degE7] (type:int32_t)
+        lon                       : Longitude. [degE7] (type:int32_t)
+        alt                       : Altitude (MSL). [mm] (type:int32_t)
+        h_acc                     : Horizontal position uncertainty (standard deviation). [mm] (type:uint32_t)
+        v_acc                     : Altitude uncertainty (standard deviation). [mm] (type:uint32_t)
+        srvin_dur                 : Passed survey-in observation time. [s] (type:uint32_t)
+        srvin_mean_acc            : Current survey-in mean position accuracy. [0.1 mm] (type:uint32_t)
+        srvin_obs                 : Number of position observations used during survey-in. (type:uint32_t)
+        pdop                      : Position dilution of precision. [0.01] (type:uint16_t)
+        fix_type                  : GPS fix type. (type:uint8_t, values:RTK_FIX_TYPE)
+        num_satellites            : Number of satellites used in Nav Solution. (type:uint8_t)
+        gnss_flags                : Bitmap showing GNSS status flags. (type:uint16_t, values:RTK_GNSS_FLAGS)
+        device_status_flags        : Bitmap showing device status flags. (type:uint16_t, values:RTK_DEVICE_FLAGS)
+        rtcm1005_cnt              : RTCM1005 message count. (type:uint16_t)
+        rtcm1074_cnt              : RTCM1074 message count. (type:uint16_t)
+        rtcm1084_cnt              : RTCM1084 message count. (type:uint16_t)
+        rtcm1094_cnt              : RTCM1094 message count. (type:uint16_t)
+        rtcm1124_cnt              : RTCM1124 message count. (type:uint16_t)
+        rtcm1230_cnt              : RTCM1230 message count. (type:uint16_t)
+        nav_pvt_cnt               : NAV-PVT message count. (type:uint16_t)
+        nav_svin_cnt              : NAV-SVIN message count. (type:uint16_t)
+        psup_type                 : Power supply type. (type:uint8_t, values:RTK_POWER_SUPPLY_TYPE)
+        psup_voltage              : Power supply budget voltage. [mV] (type:uint16_t)
+        psup_current              : Power supply budget current. [mA] (type:uint16_t)
+        bat1_voltage              : Battery 1 voltage. [mV] (type:uint16_t)
+        bat2_voltage              : Battery 2 voltage. [mV] (type:uint16_t)
+        bat1_soc                  : Battery 1 state of charge. [%] (type:uint8_t)
+        bat2_soc                  : Battery 2 state of charge. [%] (type:uint8_t)
+        bat1_flags                : Bitmap showing battery 1 status flags. (type:uint8_t, values:RTK_BATTERY_FLAGS)
+        bat2_flags                : Bitmap showing battery 2 status flags. (type:uint8_t, values:RTK_BATTERY_FLAGS)
+
+        """
+        return MAVLink_rtk_tm_message(timestamp_unix, timestamp, lat, lon, alt, h_acc, v_acc, srvin_dur, srvin_mean_acc, srvin_obs, pdop, fix_type, num_satellites, gnss_flags, device_status_flags, rtcm1005_cnt, rtcm1074_cnt, rtcm1084_cnt, rtcm1094_cnt, rtcm1124_cnt, rtcm1230_cnt, nav_pvt_cnt, nav_svin_cnt, psup_type, psup_voltage, psup_current, bat1_voltage, bat2_voltage, bat1_soc, bat2_soc, bat1_flags, bat2_flags)
+
+    def rtk_tm_send(self, timestamp_unix: int, timestamp: int, lat: int, lon: int, alt: int, h_acc: int, v_acc: int, srvin_dur: int, srvin_mean_acc: int, srvin_obs: int, pdop: int, fix_type: int, num_satellites: int, gnss_flags: int, device_status_flags: int, rtcm1005_cnt: int, rtcm1074_cnt: int, rtcm1084_cnt: int, rtcm1094_cnt: int, rtcm1124_cnt: int, rtcm1230_cnt: int, nav_pvt_cnt: int, nav_svin_cnt: int, psup_type: int, psup_voltage: int, psup_current: int, bat1_voltage: int, bat2_voltage: int, bat1_soc: int, bat2_soc: int, bat1_flags: int, bat2_flags: int, force_mavlink1: bool = False) -> None:
+        """
+        RTK telemetry.
+
+        timestamp_unix            : Timestamp (microseconds since UNIX epoch). [us] (type:uint64_t)
+        timestamp                 : Timestamp (milliseconds since system boot). [ms] (type:uint32_t)
+        lat                       : Latitude. [degE7] (type:int32_t)
+        lon                       : Longitude. [degE7] (type:int32_t)
+        alt                       : Altitude (MSL). [mm] (type:int32_t)
+        h_acc                     : Horizontal position uncertainty (standard deviation). [mm] (type:uint32_t)
+        v_acc                     : Altitude uncertainty (standard deviation). [mm] (type:uint32_t)
+        srvin_dur                 : Passed survey-in observation time. [s] (type:uint32_t)
+        srvin_mean_acc            : Current survey-in mean position accuracy. [0.1 mm] (type:uint32_t)
+        srvin_obs                 : Number of position observations used during survey-in. (type:uint32_t)
+        pdop                      : Position dilution of precision. [0.01] (type:uint16_t)
+        fix_type                  : GPS fix type. (type:uint8_t, values:RTK_FIX_TYPE)
+        num_satellites            : Number of satellites used in Nav Solution. (type:uint8_t)
+        gnss_flags                : Bitmap showing GNSS status flags. (type:uint16_t, values:RTK_GNSS_FLAGS)
+        device_status_flags        : Bitmap showing device status flags. (type:uint16_t, values:RTK_DEVICE_FLAGS)
+        rtcm1005_cnt              : RTCM1005 message count. (type:uint16_t)
+        rtcm1074_cnt              : RTCM1074 message count. (type:uint16_t)
+        rtcm1084_cnt              : RTCM1084 message count. (type:uint16_t)
+        rtcm1094_cnt              : RTCM1094 message count. (type:uint16_t)
+        rtcm1124_cnt              : RTCM1124 message count. (type:uint16_t)
+        rtcm1230_cnt              : RTCM1230 message count. (type:uint16_t)
+        nav_pvt_cnt               : NAV-PVT message count. (type:uint16_t)
+        nav_svin_cnt              : NAV-SVIN message count. (type:uint16_t)
+        psup_type                 : Power supply type. (type:uint8_t, values:RTK_POWER_SUPPLY_TYPE)
+        psup_voltage              : Power supply budget voltage. [mV] (type:uint16_t)
+        psup_current              : Power supply budget current. [mA] (type:uint16_t)
+        bat1_voltage              : Battery 1 voltage. [mV] (type:uint16_t)
+        bat2_voltage              : Battery 2 voltage. [mV] (type:uint16_t)
+        bat1_soc                  : Battery 1 state of charge. [%] (type:uint8_t)
+        bat2_soc                  : Battery 2 state of charge. [%] (type:uint8_t)
+        bat1_flags                : Bitmap showing battery 1 status flags. (type:uint8_t, values:RTK_BATTERY_FLAGS)
+        bat2_flags                : Bitmap showing battery 2 status flags. (type:uint8_t, values:RTK_BATTERY_FLAGS)
+
+        """
+        self.send(self.rtk_tm_encode(timestamp_unix, timestamp, lat, lon, alt, h_acc, v_acc, srvin_dur, srvin_mean_acc, srvin_obs, pdop, fix_type, num_satellites, gnss_flags, device_status_flags, rtcm1005_cnt, rtcm1074_cnt, rtcm1084_cnt, rtcm1094_cnt, rtcm1124_cnt, rtcm1230_cnt, nav_pvt_cnt, nav_svin_cnt, psup_type, psup_voltage, psup_current, bat1_voltage, bat2_voltage, bat1_soc, bat2_soc, bat1_flags, bat2_flags), force_mavlink1=force_mavlink1)
 
     def param_ack_transaction_encode(self, target_system: int, target_component: int, param_id: bytes, param_value: float, param_type: int, param_result: int) -> MAVLink_param_ack_transaction_message:
         """

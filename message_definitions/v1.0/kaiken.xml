@@ -70,6 +70,118 @@
         <description>0x80 failsafe on path acceptance radius violation</description>
       </entry>
     </enum>
+    <enum name="RTK_FIX_TYPE">
+      <entry value="0" name="RTK_FIX_TYPE_NOFIX">
+        <description>No ﬁx.</description>
+      </entry>
+      <entry value="1" name="RTK_FIX_TYPE_DEADREC">
+        <description>dead reckoning only.</description>
+      </entry>
+      <entry value="2" name="RTK_FIX_TYPE_2D">
+        <description>2D-ﬁx.</description>
+      </entry>
+      <entry value="3" name="RTK_FIX_TYPE_3D">
+        <description>3D-ﬁx.</description>
+      </entry>
+      <entry value="4" name="RTK_FIX_TYPE_COMBINED">
+        <description>GNSS + dead reckoning combined.</description>
+      </entry>
+      <entry value="5" name="RTK_FIX_TYPE_TIMEONLY">
+        <description>Time only ﬁx.</description>
+      </entry>
+    </enum>
+    <enum name="RTK_GNSS_FLAGS" bitmask="true">
+      <description>These encode the gnss_flags sent as part of the RTK_TM message.</description>
+      <entry value="1" name="RTK_GNSS_FLAGS_SRVIN_ACTIVE">
+        <description>0x01 Survey-in in progress</description>
+      </entry>
+      <entry value="2" name="RTK_GNSS_FLAGS_SRVIN_VALID">
+        <description>0x02 Survey-in valid</description>
+      </entry>
+      <entry value="4" name="RTK_GNSS_FLAGS_FIX_VALID">
+        <description>0x04 Fix type, DOP and accuracy are valid</description>
+      </entry>
+      <entry value="8" name="RTK_GNSS_FLAGS_POS_VALID">
+        <description>0x08 Latitude, longitude and altitude are valid</description>
+      </entry>
+      <entry value="16" name="RTK_GNSS_FLAGS_TIME_VALID">
+        <description>0x10 Unix timestamp valid. Initial value is reset, sets after first received UBX-NAV-PVT message</description>
+      </entry>
+      <entry value="32" name="RTK_GNSS_FLAGS_CONFIGURED">
+        <description>0x20 GNSS is configured </description>
+      </entry>
+    </enum>
+    <enum name="RTK_DEVICE_FLAGS" bitmask="true">
+      <description>These encode the device_status_flags sent as part of the RTK_TM message.</description>
+      <entry value="1" name="RTK_DEVICE_FLAGS_ETH_INIT">
+        <description>0x01 Ethernet initialized</description>
+      </entry>
+      <entry value="2" name="RTK_DEVICE_FLAGS_WIFI_INIT">
+        <description>0x02 Wi-Fi initialized</description>
+      </entry>
+      <entry value="4" name="RTK_DEVICE_FLAGS_LORA24_INIT">
+        <description>0x04 LoRa 2.4GHz initialized</description>
+      </entry>
+      <entry value="8" name="RTK_DEVICE_FLAGS_LORA900_INIT">
+        <description>0x08 LoRa 900MHz initialized</description>
+      </entry>
+      <entry value="16" name="RTK_DEVICE_FLAGS_GNSS_INIT">
+        <description>0x10 GNSS initialized</description>
+      </entry>
+      <entry value="32" name="RTK_DEVICE_FLAGS_USB_INIT">
+        <description>0x20 USB PD initialized</description>
+      </entry>
+      <entry value="64" name="RTK_DEVICE_FLAGS_EEPROM_INIT">
+        <description>0x20 EEPROM initialized</description>
+      </entry>
+      <entry value="128" name="RTK_DEVICE_FLAGS_SD_INIT">
+        <description>0x80 SD card initialized</description>
+      </entry>
+      <entry value="256" name="RTK_DEVICE_FLAGS_CHARGER1_INIT">
+        <description>0x100 Charger 1 initialized</description>
+      </entry>
+      <entry value="512" name="RTK_DEVICE_FLAGS_CHARGER2_INIT">
+        <description>0x200 Charger 2 initialized</description>
+      </entry>
+      <entry value="1024" name="RTK_DEVICE_FLAGS_RTK_READY">
+        <description>0x400 RTK READY</description>
+      </entry>
+      <entry value="2048" name="RTK_DEVICE_FLAGS_POSCASH_VALID">
+        <description>0x800 Cashed position valid</description>
+      </entry>
+      <entry value="4096" name="RTK_DEVICE_FLAGS_RTCM_ENABLED">
+        <description>0x1000 RTCM ENABLED</description>
+      </entry>
+    </enum>
+    <enum name="RTK_POWER_SUPPLY_TYPE">
+      <entry value="0" name="RTK_POWER_SUPPLY_TYPE_NONE">
+        <description>N/A</description>
+      </entry>
+      <entry value="1" name="RTK_POWER_SUPPLY_TYPE_POE">
+        <description>POE.</description>
+      </entry>
+      <entry value="2" name="RTK_POWER_SUPPLY_TYPE_USBPD">
+        <description>USB PD.</description>
+      </entry>
+      <entry value="3" name="RTK_POWER_SUPPLY_TYPE_USB5V">
+        <description>USB 5V.</description>
+      </entry>
+      <entry value="4" name="RTK_POWER_SUPPLY_TYPE_BAT1">
+        <description>Battery 1.</description>
+      </entry>
+      <entry value="5" name="RTK_POWER_SUPPLY_TYPE_BAT2">
+        <description>Battery 2.</description>
+      </entry>
+    </enum>
+    <enum name="RTK_BATTERY_FLAGS" bitmask="true">
+      <description>These encode the bat1_flags and bat2_flags sent as part of the RTK_TM message.</description>
+      <entry value="1" name="RTK_BATTERY_FLAGS_PRESENT">
+        <description>0x01 Battery is present</description>
+      </entry>
+      <entry value="2" name="RTK_BATTERY_FLAGS_CHARGING">
+        <description>0x02 Battery is charging</description>
+      </entry>
+    </enum>
   </enums>
   <messages>
     <!-- Messages specifically designated for the Kaiken autopilot -->
@@ -92,6 +204,41 @@
       <field type="uint16_t" name="voltage_battery" units="mV" invalid="UINT16_MAX">Battery voltage, UINT16_MAX: Voltage not sent by autopilot</field>
       <field type="int16_t" name="current_battery" units="cA" invalid="-1">Battery current, -1: Current not sent by autopilot</field>
       <field type="int8_t" name="battery_remaining" units="%" invalid="-1">Battery energy remaining, -1: Battery remaining energy not sent by autopilot</field>
+    </message>
+    <message id="11200" name="RTK_TM">
+      <description>RTK telemetry.</description>
+      <field type="uint64_t" name="timestamp_unix" units="us">Timestamp (microseconds since UNIX epoch).</field>
+      <field type="uint32_t" name="timestamp" units="ms">Timestamp (milliseconds since system boot).</field>
+      <field type="int32_t" name="lat" units="degE7">Latitude.</field>
+      <field type="int32_t" name="lon" units="degE7">Longitude.</field>
+      <field type="int32_t" name="alt" units="mm">Altitude (MSL).</field>
+      <field type="uint32_t" name="h_acc" units="mm">Horizontal position uncertainty (standard deviation).</field>
+      <field type="uint32_t" name="v_acc" units="mm">Altitude uncertainty (standard deviation).</field>
+      <field type="uint32_t" name="srvin_dur" units="s">Passed survey-in observation time.</field>
+      <field type="uint32_t" name="srvin_mean_acc" units="0.1 mm">Current survey-in mean position accuracy.</field>
+      <field type="uint32_t" name="srvin_obs" >Number of position observations used during survey-in.</field>
+      <field type="uint16_t" name="pdop" units="0.01">Position dilution of precision.</field>
+      <field type="uint8_t" name="fix_type" enum="RTK_FIX_TYPE">GPS fix type.</field>
+      <field type="uint8_t" name="num_satellites" >Number of satellites used in Nav Solution.</field>
+      <field type="uint16_t" name="gnss_flags" enum="RTK_GNSS_FLAGS" display="bitmask">Bitmap showing GNSS status flags.</field>
+      <field type="uint16_t" name="device_status_flags" enum="RTK_DEVICE_FLAGS" display="bitmask">Bitmap showing device status flags.</field>
+      <field type="uint16_t" name="rtcm1005_cnt" units="">RTCM1005 message count.</field>
+      <field type="uint16_t" name="rtcm1074_cnt" units="">RTCM1074 message count.</field>
+      <field type="uint16_t" name="rtcm1084_cnt" units="">RTCM1084 message count.</field>
+      <field type="uint16_t" name="rtcm1094_cnt" units="">RTCM1094 message count.</field>
+      <field type="uint16_t" name="rtcm1124_cnt" units="">RTCM1124 message count.</field>
+      <field type="uint16_t" name="rtcm1230_cnt" units="">RTCM1230 message count.</field>
+      <field type="uint16_t" name="nav_pvt_cnt" units="">NAV-PVT message count.</field>
+      <field type="uint16_t" name="nav_svin_cnt" units="">NAV-SVIN message count.</field>
+      <field type="uint8_t" name="psup_type" enum="RTK_POWER_SUPPLY_TYPE">Power supply type.</field>
+      <field type="uint16_t" name="psup_voltage" units="mV">Power supply budget voltage.</field>
+      <field type="uint16_t" name="psup_current" units="mA">Power supply budget current.</field>
+      <field type="uint16_t" name="bat1_voltage" units="mV">Battery 1 voltage.</field>
+      <field type="uint16_t" name="bat2_voltage" units="mV">Battery 2 voltage.</field>
+      <field type="uint8_t" name="bat1_soc" units="%">Battery 1 state of charge.</field>
+      <field type="uint8_t" name="bat2_soc" units="%">Battery 2 state of charge.</field>
+      <field type="uint8_t" name="bat1_flags" enum="RTK_BATTERY_FLAGS" display="bitmask">Bitmap showing battery 1 status flags.</field>
+      <field type="uint8_t" name="bat2_flags" enum="RTK_BATTERY_FLAGS" display="bitmask">Bitmap showing battery 2 status flags.</field>
     </message>
   </messages>
 </mavlink>

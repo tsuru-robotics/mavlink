@@ -40,6 +40,7 @@ protocolVersions = {
 
 messageName = {
     [11103] = 'FMU_TM',
+    [11200] = 'RTK_TM',
     [19] = 'PARAM_ACK_TRANSACTION',
     [53] = 'MISSION_CHECKSUM',
     [295] = 'AIRSPEED',
@@ -376,6 +377,49 @@ local enumEntryName = {
         [32] = "FMU_FAILSAFE_FLAGS_SOFTFENCE",
         [64] = "FMU_FAILSAFE_FLAGS_HARDFENCE",
         [128] = "FMU_FAILSAFE_FLAGS_PATH",
+    },
+    ["RTK_FIX_TYPE"] = {
+        [0] = "RTK_FIX_TYPE_NOFIX",
+        [1] = "RTK_FIX_TYPE_DEADREC",
+        [2] = "RTK_FIX_TYPE_2D",
+        [3] = "RTK_FIX_TYPE_3D",
+        [4] = "RTK_FIX_TYPE_COMBINED",
+        [5] = "RTK_FIX_TYPE_TIMEONLY",
+    },
+    ["RTK_GNSS_FLAGS"] = {
+        [1] = "RTK_GNSS_FLAGS_SRVIN_ACTIVE",
+        [2] = "RTK_GNSS_FLAGS_SRVIN_VALID",
+        [4] = "RTK_GNSS_FLAGS_FIX_VALID",
+        [8] = "RTK_GNSS_FLAGS_POS_VALID",
+        [16] = "RTK_GNSS_FLAGS_TIME_VALID",
+        [32] = "RTK_GNSS_FLAGS_CONFIGURED",
+    },
+    ["RTK_DEVICE_FLAGS"] = {
+        [1] = "RTK_DEVICE_FLAGS_ETH_INIT",
+        [2] = "RTK_DEVICE_FLAGS_WIFI_INIT",
+        [4] = "RTK_DEVICE_FLAGS_LORA24_INIT",
+        [8] = "RTK_DEVICE_FLAGS_LORA900_INIT",
+        [16] = "RTK_DEVICE_FLAGS_GNSS_INIT",
+        [32] = "RTK_DEVICE_FLAGS_USB_INIT",
+        [64] = "RTK_DEVICE_FLAGS_EEPROM_INIT",
+        [128] = "RTK_DEVICE_FLAGS_SD_INIT",
+        [256] = "RTK_DEVICE_FLAGS_CHARGER1_INIT",
+        [512] = "RTK_DEVICE_FLAGS_CHARGER2_INIT",
+        [1024] = "RTK_DEVICE_FLAGS_RTK_READY",
+        [2048] = "RTK_DEVICE_FLAGS_POSCASH_VALID",
+        [4096] = "RTK_DEVICE_FLAGS_RTCM_ENABLED",
+    },
+    ["RTK_POWER_SUPPLY_TYPE"] = {
+        [0] = "RTK_POWER_SUPPLY_TYPE_NONE",
+        [1] = "RTK_POWER_SUPPLY_TYPE_POE",
+        [2] = "RTK_POWER_SUPPLY_TYPE_USBPD",
+        [3] = "RTK_POWER_SUPPLY_TYPE_USB5V",
+        [4] = "RTK_POWER_SUPPLY_TYPE_BAT1",
+        [5] = "RTK_POWER_SUPPLY_TYPE_BAT2",
+    },
+    ["RTK_BATTERY_FLAGS"] = {
+        [1] = "RTK_BATTERY_FLAGS_PRESENT",
+        [2] = "RTK_BATTERY_FLAGS_CHARGING",
     },
     ["WIFI_NETWORK_SECURITY"] = {
         [0] = "WIFI_NETWORK_SECURITY_UNDEFINED",
@@ -3706,6 +3750,62 @@ f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_PATH = ProtoField.bool("mavlink_p
 f.FMU_TM_voltage_battery = ProtoField.new("voltage_battery (uint16_t) [mV]", "mavlink_proto.FMU_TM_voltage_battery", ftypes.UINT16, nil)
 f.FMU_TM_current_battery = ProtoField.new("current_battery (int16_t) [cA]", "mavlink_proto.FMU_TM_current_battery", ftypes.INT16, nil)
 f.FMU_TM_battery_remaining = ProtoField.new("battery_remaining (int8_t) [%]", "mavlink_proto.FMU_TM_battery_remaining", ftypes.INT8, nil)
+
+f.RTK_TM_timestamp_unix = ProtoField.new("timestamp_unix (uint64_t) [us]", "mavlink_proto.RTK_TM_timestamp_unix", ftypes.UINT64, nil)
+f.RTK_TM_timestamp = ProtoField.new("timestamp (uint32_t) [ms]", "mavlink_proto.RTK_TM_timestamp", ftypes.UINT32, nil)
+f.RTK_TM_lat = ProtoField.new("lat (int32_t) [degE7]", "mavlink_proto.RTK_TM_lat", ftypes.INT32, nil)
+f.RTK_TM_lon = ProtoField.new("lon (int32_t) [degE7]", "mavlink_proto.RTK_TM_lon", ftypes.INT32, nil)
+f.RTK_TM_alt = ProtoField.new("alt (int32_t) [mm]", "mavlink_proto.RTK_TM_alt", ftypes.INT32, nil)
+f.RTK_TM_h_acc = ProtoField.new("h_acc (uint32_t) [mm]", "mavlink_proto.RTK_TM_h_acc", ftypes.UINT32, nil)
+f.RTK_TM_v_acc = ProtoField.new("v_acc (uint32_t) [mm]", "mavlink_proto.RTK_TM_v_acc", ftypes.UINT32, nil)
+f.RTK_TM_srvin_dur = ProtoField.new("srvin_dur (uint32_t) [s]", "mavlink_proto.RTK_TM_srvin_dur", ftypes.UINT32, nil)
+f.RTK_TM_srvin_mean_acc = ProtoField.new("srvin_mean_acc (uint32_t) [0.1 mm]", "mavlink_proto.RTK_TM_srvin_mean_acc", ftypes.UINT32, nil)
+f.RTK_TM_srvin_obs = ProtoField.new("srvin_obs (uint32_t)", "mavlink_proto.RTK_TM_srvin_obs", ftypes.UINT32, nil)
+f.RTK_TM_pdop = ProtoField.new("pdop (uint16_t) [0.01]", "mavlink_proto.RTK_TM_pdop", ftypes.UINT16, nil)
+f.RTK_TM_fix_type = ProtoField.new("fix_type (RTK_FIX_TYPE)", "mavlink_proto.RTK_TM_fix_type", ftypes.UINT8, enumEntryName.RTK_FIX_TYPE)
+f.RTK_TM_num_satellites = ProtoField.new("num_satellites (uint8_t)", "mavlink_proto.RTK_TM_num_satellites", ftypes.UINT8, nil)
+f.RTK_TM_gnss_flags = ProtoField.new("gnss_flags (RTK_GNSS_FLAGS)", "mavlink_proto.RTK_TM_gnss_flags", ftypes.UINT16, nil, base.HEX_DEC)
+f.RTK_TM_gnss_flags_flagRTK_GNSS_FLAGS_SRVIN_ACTIVE = ProtoField.bool("mavlink_proto.RTK_TM_gnss_flags.RTK_GNSS_FLAGS_SRVIN_ACTIVE", "RTK_GNSS_FLAGS_SRVIN_ACTIVE", 8, nil, 1)
+f.RTK_TM_gnss_flags_flagRTK_GNSS_FLAGS_SRVIN_VALID = ProtoField.bool("mavlink_proto.RTK_TM_gnss_flags.RTK_GNSS_FLAGS_SRVIN_VALID", "RTK_GNSS_FLAGS_SRVIN_VALID", 8, nil, 2)
+f.RTK_TM_gnss_flags_flagRTK_GNSS_FLAGS_FIX_VALID = ProtoField.bool("mavlink_proto.RTK_TM_gnss_flags.RTK_GNSS_FLAGS_FIX_VALID", "RTK_GNSS_FLAGS_FIX_VALID", 8, nil, 4)
+f.RTK_TM_gnss_flags_flagRTK_GNSS_FLAGS_POS_VALID = ProtoField.bool("mavlink_proto.RTK_TM_gnss_flags.RTK_GNSS_FLAGS_POS_VALID", "RTK_GNSS_FLAGS_POS_VALID", 8, nil, 8)
+f.RTK_TM_gnss_flags_flagRTK_GNSS_FLAGS_TIME_VALID = ProtoField.bool("mavlink_proto.RTK_TM_gnss_flags.RTK_GNSS_FLAGS_TIME_VALID", "RTK_GNSS_FLAGS_TIME_VALID", 8, nil, 16)
+f.RTK_TM_gnss_flags_flagRTK_GNSS_FLAGS_CONFIGURED = ProtoField.bool("mavlink_proto.RTK_TM_gnss_flags.RTK_GNSS_FLAGS_CONFIGURED", "RTK_GNSS_FLAGS_CONFIGURED", 8, nil, 32)
+f.RTK_TM_device_status_flags = ProtoField.new("device_status_flags (RTK_DEVICE_FLAGS)", "mavlink_proto.RTK_TM_device_status_flags", ftypes.UINT16, nil, base.HEX_DEC)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_ETH_INIT = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_ETH_INIT", "RTK_DEVICE_FLAGS_ETH_INIT", 16, nil, 1)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_WIFI_INIT = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_WIFI_INIT", "RTK_DEVICE_FLAGS_WIFI_INIT", 16, nil, 2)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_LORA24_INIT = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_LORA24_INIT", "RTK_DEVICE_FLAGS_LORA24_INIT", 16, nil, 4)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_LORA900_INIT = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_LORA900_INIT", "RTK_DEVICE_FLAGS_LORA900_INIT", 16, nil, 8)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_GNSS_INIT = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_GNSS_INIT", "RTK_DEVICE_FLAGS_GNSS_INIT", 16, nil, 16)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_USB_INIT = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_USB_INIT", "RTK_DEVICE_FLAGS_USB_INIT", 16, nil, 32)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_EEPROM_INIT = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_EEPROM_INIT", "RTK_DEVICE_FLAGS_EEPROM_INIT", 16, nil, 64)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_SD_INIT = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_SD_INIT", "RTK_DEVICE_FLAGS_SD_INIT", 16, nil, 128)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_CHARGER1_INIT = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_CHARGER1_INIT", "RTK_DEVICE_FLAGS_CHARGER1_INIT", 16, nil, 256)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_CHARGER2_INIT = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_CHARGER2_INIT", "RTK_DEVICE_FLAGS_CHARGER2_INIT", 16, nil, 512)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_RTK_READY = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_RTK_READY", "RTK_DEVICE_FLAGS_RTK_READY", 16, nil, 1024)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_POSCASH_VALID = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_POSCASH_VALID", "RTK_DEVICE_FLAGS_POSCASH_VALID", 16, nil, 2048)
+f.RTK_TM_device_status_flags_flagRTK_DEVICE_FLAGS_RTCM_ENABLED = ProtoField.bool("mavlink_proto.RTK_TM_device_status_flags.RTK_DEVICE_FLAGS_RTCM_ENABLED", "RTK_DEVICE_FLAGS_RTCM_ENABLED", 16, nil, 4096)
+f.RTK_TM_rtcm1005_cnt = ProtoField.new("rtcm1005_cnt (uint16_t)", "mavlink_proto.RTK_TM_rtcm1005_cnt", ftypes.UINT16, nil)
+f.RTK_TM_rtcm1074_cnt = ProtoField.new("rtcm1074_cnt (uint16_t)", "mavlink_proto.RTK_TM_rtcm1074_cnt", ftypes.UINT16, nil)
+f.RTK_TM_rtcm1084_cnt = ProtoField.new("rtcm1084_cnt (uint16_t)", "mavlink_proto.RTK_TM_rtcm1084_cnt", ftypes.UINT16, nil)
+f.RTK_TM_rtcm1094_cnt = ProtoField.new("rtcm1094_cnt (uint16_t)", "mavlink_proto.RTK_TM_rtcm1094_cnt", ftypes.UINT16, nil)
+f.RTK_TM_rtcm1124_cnt = ProtoField.new("rtcm1124_cnt (uint16_t)", "mavlink_proto.RTK_TM_rtcm1124_cnt", ftypes.UINT16, nil)
+f.RTK_TM_rtcm1230_cnt = ProtoField.new("rtcm1230_cnt (uint16_t)", "mavlink_proto.RTK_TM_rtcm1230_cnt", ftypes.UINT16, nil)
+f.RTK_TM_nav_pvt_cnt = ProtoField.new("nav_pvt_cnt (uint16_t)", "mavlink_proto.RTK_TM_nav_pvt_cnt", ftypes.UINT16, nil)
+f.RTK_TM_nav_svin_cnt = ProtoField.new("nav_svin_cnt (uint16_t)", "mavlink_proto.RTK_TM_nav_svin_cnt", ftypes.UINT16, nil)
+f.RTK_TM_psup_type = ProtoField.new("psup_type (RTK_POWER_SUPPLY_TYPE)", "mavlink_proto.RTK_TM_psup_type", ftypes.UINT8, enumEntryName.RTK_POWER_SUPPLY_TYPE)
+f.RTK_TM_psup_voltage = ProtoField.new("psup_voltage (uint16_t) [mV]", "mavlink_proto.RTK_TM_psup_voltage", ftypes.UINT16, nil)
+f.RTK_TM_psup_current = ProtoField.new("psup_current (uint16_t) [mA]", "mavlink_proto.RTK_TM_psup_current", ftypes.UINT16, nil)
+f.RTK_TM_bat1_voltage = ProtoField.new("bat1_voltage (uint16_t) [mV]", "mavlink_proto.RTK_TM_bat1_voltage", ftypes.UINT16, nil)
+f.RTK_TM_bat2_voltage = ProtoField.new("bat2_voltage (uint16_t) [mV]", "mavlink_proto.RTK_TM_bat2_voltage", ftypes.UINT16, nil)
+f.RTK_TM_bat1_soc = ProtoField.new("bat1_soc (uint8_t) [%]", "mavlink_proto.RTK_TM_bat1_soc", ftypes.UINT8, nil)
+f.RTK_TM_bat2_soc = ProtoField.new("bat2_soc (uint8_t) [%]", "mavlink_proto.RTK_TM_bat2_soc", ftypes.UINT8, nil)
+f.RTK_TM_bat1_flags = ProtoField.new("bat1_flags (RTK_BATTERY_FLAGS)", "mavlink_proto.RTK_TM_bat1_flags", ftypes.UINT8, nil, base.HEX_DEC)
+f.RTK_TM_bat1_flags_flagRTK_BATTERY_FLAGS_PRESENT = ProtoField.bool("mavlink_proto.RTK_TM_bat1_flags.RTK_BATTERY_FLAGS_PRESENT", "RTK_BATTERY_FLAGS_PRESENT", 4, nil, 1)
+f.RTK_TM_bat1_flags_flagRTK_BATTERY_FLAGS_CHARGING = ProtoField.bool("mavlink_proto.RTK_TM_bat1_flags.RTK_BATTERY_FLAGS_CHARGING", "RTK_BATTERY_FLAGS_CHARGING", 4, nil, 2)
+f.RTK_TM_bat2_flags = ProtoField.new("bat2_flags (RTK_BATTERY_FLAGS)", "mavlink_proto.RTK_TM_bat2_flags", ftypes.UINT8, nil, base.HEX_DEC)
+f.RTK_TM_bat2_flags_flagRTK_BATTERY_FLAGS_PRESENT = ProtoField.bool("mavlink_proto.RTK_TM_bat2_flags.RTK_BATTERY_FLAGS_PRESENT", "RTK_BATTERY_FLAGS_PRESENT", 4, nil, 1)
+f.RTK_TM_bat2_flags_flagRTK_BATTERY_FLAGS_CHARGING = ProtoField.bool("mavlink_proto.RTK_TM_bat2_flags.RTK_BATTERY_FLAGS_CHARGING", "RTK_BATTERY_FLAGS_CHARGING", 4, nil, 2)
 
 f.PARAM_ACK_TRANSACTION_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.PARAM_ACK_TRANSACTION_target_system", ftypes.UINT8, nil)
 f.PARAM_ACK_TRANSACTION_target_component = ProtoField.new("target_component (uint8_t)", "mavlink_proto.PARAM_ACK_TRANSACTION_target_component", ftypes.UINT8, nil)
@@ -11338,6 +11438,36 @@ function dissect_flags_FMU_FAILSAFE_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagFMU_FAILSAFE_FLAGS_PATH"], tvbrange, value)
 end
 -- dissect flag field
+function dissect_flags_RTK_GNSS_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_GNSS_FLAGS_SRVIN_ACTIVE"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_GNSS_FLAGS_SRVIN_VALID"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_GNSS_FLAGS_FIX_VALID"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_GNSS_FLAGS_POS_VALID"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_GNSS_FLAGS_TIME_VALID"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_GNSS_FLAGS_CONFIGURED"], tvbrange, value)
+end
+-- dissect flag field
+function dissect_flags_RTK_DEVICE_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_ETH_INIT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_WIFI_INIT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_LORA24_INIT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_LORA900_INIT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_GNSS_INIT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_USB_INIT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_EEPROM_INIT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_SD_INIT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_CHARGER1_INIT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_CHARGER2_INIT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_RTK_READY"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_POSCASH_VALID"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_DEVICE_FLAGS_RTCM_ENABLED"], tvbrange, value)
+end
+-- dissect flag field
+function dissect_flags_RTK_BATTERY_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_BATTERY_FLAGS_PRESENT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRTK_BATTERY_FLAGS_CHARGING"], tvbrange, value)
+end
+-- dissect flag field
 function dissect_flags_AIRSPEED_SENSOR_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagAIRSPEED_SENSOR_USING"], tvbrange, value)
 end
@@ -11911,6 +12041,120 @@ function payload_fns.payload_11103(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 35, 1)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.FMU_TM_battery_remaining, tvbrange, value)
+end
+-- dissect payload of message type RTK_TM
+function payload_fns.payload_11200(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 81 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 81)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 0, 8)
+    value = tvbrange:le_uint64()
+    subtree = tree:add_le(f.RTK_TM_timestamp_unix, tvbrange, value)
+    subtree:append_text(time_usec_decode(value))
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_timestamp, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.RTK_TM_lat, tvbrange, value)
+    subtree:append_text(string.format(" (%.7f deg)",value/1E7))
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.RTK_TM_lon, tvbrange, value)
+    subtree:append_text(string.format(" (%.7f deg)",value/1E7))
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.RTK_TM_alt, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_h_acc, tvbrange, value)
+    tvbrange = padded(offset + 28, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_v_acc, tvbrange, value)
+    tvbrange = padded(offset + 32, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_srvin_dur, tvbrange, value)
+    tvbrange = padded(offset + 36, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_srvin_mean_acc, tvbrange, value)
+    tvbrange = padded(offset + 40, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_srvin_obs, tvbrange, value)
+    tvbrange = padded(offset + 44, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_pdop, tvbrange, value)
+    tvbrange = padded(offset + 74, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_fix_type, tvbrange, value)
+    tvbrange = padded(offset + 75, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_num_satellites, tvbrange, value)
+    tvbrange = padded(offset + 46, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_gnss_flags, tvbrange, value)
+    dissect_flags_RTK_GNSS_FLAGS(subtree, "RTK_TM_gnss_flags", tvbrange, value)
+    tvbrange = padded(offset + 48, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_device_status_flags, tvbrange, value)
+    dissect_flags_RTK_DEVICE_FLAGS(subtree, "RTK_TM_device_status_flags", tvbrange, value)
+    tvbrange = padded(offset + 50, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_rtcm1005_cnt, tvbrange, value)
+    tvbrange = padded(offset + 52, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_rtcm1074_cnt, tvbrange, value)
+    tvbrange = padded(offset + 54, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_rtcm1084_cnt, tvbrange, value)
+    tvbrange = padded(offset + 56, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_rtcm1094_cnt, tvbrange, value)
+    tvbrange = padded(offset + 58, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_rtcm1124_cnt, tvbrange, value)
+    tvbrange = padded(offset + 60, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_rtcm1230_cnt, tvbrange, value)
+    tvbrange = padded(offset + 62, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_nav_pvt_cnt, tvbrange, value)
+    tvbrange = padded(offset + 64, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_nav_svin_cnt, tvbrange, value)
+    tvbrange = padded(offset + 76, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_psup_type, tvbrange, value)
+    tvbrange = padded(offset + 66, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_psup_voltage, tvbrange, value)
+    tvbrange = padded(offset + 68, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_psup_current, tvbrange, value)
+    tvbrange = padded(offset + 70, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_bat1_voltage, tvbrange, value)
+    tvbrange = padded(offset + 72, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_bat2_voltage, tvbrange, value)
+    tvbrange = padded(offset + 77, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_bat1_soc, tvbrange, value)
+    tvbrange = padded(offset + 78, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_bat2_soc, tvbrange, value)
+    tvbrange = padded(offset + 79, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_bat1_flags, tvbrange, value)
+    dissect_flags_RTK_BATTERY_FLAGS(subtree, "RTK_TM_bat1_flags", tvbrange, value)
+    tvbrange = padded(offset + 80, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RTK_TM_bat2_flags, tvbrange, value)
+    dissect_flags_RTK_BATTERY_FLAGS(subtree, "RTK_TM_bat2_flags", tvbrange, value)
 end
 -- dissect payload of message type PARAM_ACK_TRANSACTION
 function payload_fns.payload_19(buffer, tree, msgid, offset, limit, pinfo)
