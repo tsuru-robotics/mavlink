@@ -8629,6 +8629,46 @@ class MAVLink_storage_information_message(MAVLink_message):
 setattr(MAVLink_storage_information_message, "name", mavlink_msg_deprecated_name_property())
 
 
+class MAVLink_current_event_sequence_message(MAVLink_message):
+    """
+    Regular broadcast for the current latest event sequence number for
+    a component. This is used to check for dropped events.
+    """
+
+    id = MAVLINK_MSG_ID_CURRENT_EVENT_SEQUENCE
+    msgname = "CURRENT_EVENT_SEQUENCE"
+    fieldnames = ["sequence", "flags"]
+    ordered_fieldnames = ["sequence", "flags"]
+    fieldtypes = ["uint16_t", "uint8_t"]
+    fielddisplays_by_name: Dict[str, str] = {"flags": "bitmask"}
+    fieldenums_by_name: Dict[str, str] = {"flags": "MAV_EVENT_CURRENT_SEQUENCE_FLAGS"}
+    fieldunits_by_name: Dict[str, str] = {}
+    native_format = bytearray(b"<HB")
+    orders = [0, 1]
+    lengths = [1, 1]
+    array_lengths = [0, 0]
+    crc_extra = 106
+    unpacker = struct.Struct("<HB")
+    instance_field = None
+    instance_offset = -1
+
+    def __init__(self, sequence: int, flags: int):
+        MAVLink_message.__init__(self, MAVLink_current_event_sequence_message.id, MAVLink_current_event_sequence_message.msgname)
+        self._fieldnames = MAVLink_current_event_sequence_message.fieldnames
+        self._instance_field = MAVLink_current_event_sequence_message.instance_field
+        self._instance_offset = MAVLink_current_event_sequence_message.instance_offset
+        self.sequence = sequence
+        self.flags = flags
+
+    def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.sequence, self.flags), force_mavlink1=force_mavlink1)
+
+
+# Define name on the class for backwards compatibility (it is now msgname).
+# Done with setattr to hide the class variable from mypy.
+setattr(MAVLink_current_event_sequence_message, "name", mavlink_msg_deprecated_name_property())
+
+
 class MAVLink_heartbeat_message(MAVLink_message):
     """
     The heartbeat message shows that a system or component is present
@@ -8704,6 +8744,7 @@ mavlink_map: Dict[int, Type[MAVLink_message]] = {
     MAVLINK_MSG_ID_NAMED_VALUE_INT: MAVLink_named_value_int_message,
     MAVLINK_MSG_ID_STATUSTEXT: MAVLink_statustext_message,
     MAVLINK_MSG_ID_STORAGE_INFORMATION: MAVLink_storage_information_message,
+    MAVLINK_MSG_ID_CURRENT_EVENT_SEQUENCE: MAVLink_current_event_sequence_message,
     MAVLINK_MSG_ID_HEARTBEAT: MAVLink_heartbeat_message,
 }
 
@@ -10021,6 +10062,28 @@ class MAVLink(object):
 
         """
         self.send(self.storage_information_encode(time_boot_ms, storage_id, storage_count, status, total_capacity, used_capacity, available_capacity, read_speed, write_speed, type, name, storage_usage), force_mavlink1=force_mavlink1)
+
+    def current_event_sequence_encode(self, sequence: int, flags: int) -> MAVLink_current_event_sequence_message:
+        """
+        Regular broadcast for the current latest event sequence number for a
+        component. This is used to check for dropped events.
+
+        sequence                  : Sequence number. (type:uint16_t)
+        flags                     : Flag bitset. (type:uint8_t, values:MAV_EVENT_CURRENT_SEQUENCE_FLAGS)
+
+        """
+        return MAVLink_current_event_sequence_message(sequence, flags)
+
+    def current_event_sequence_send(self, sequence: int, flags: int, force_mavlink1: bool = False) -> None:
+        """
+        Regular broadcast for the current latest event sequence number for a
+        component. This is used to check for dropped events.
+
+        sequence                  : Sequence number. (type:uint16_t)
+        flags                     : Flag bitset. (type:uint8_t, values:MAV_EVENT_CURRENT_SEQUENCE_FLAGS)
+
+        """
+        self.send(self.current_event_sequence_encode(sequence, flags), force_mavlink1=force_mavlink1)
 
     def heartbeat_encode(self, type: int, autopilot: int, base_mode: int, custom_mode: int, system_status: int, mavlink_version: int = 3) -> MAVLink_heartbeat_message:
         """
