@@ -77416,6 +77416,7 @@ udp_dissector_table:add(18570, mavlink_proto)
 
 DissectorTable.get("tcp.port"):add("5760-5763", mavlink_proto)
 
+udp_dissector_table:add(14560, mavlink_proto)
 udp_dissector_table:add(14650, mavlink_proto)
 udp_dissector_table:add(15550, mavlink_proto)
 udp_dissector_table:add(17550, mavlink_proto)
