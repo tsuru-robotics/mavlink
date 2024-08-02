@@ -10,7 +10,7 @@
     #error Wrong include order: MAVLINK_MINIMAL.H MUST NOT BE DIRECTLY USED. Include mavlink.h from the same directory instead or set ALL AND EVERY defines from MAVLINK.H manually accordingly, including the #define MAVLINK_H call.
 #endif
 
-#define MAVLINK_MINIMAL_XML_HASH -1202117815742200137
+#define MAVLINK_MINIMAL_XML_HASH 1115731386389208828
 
 #ifdef __cplusplus
 extern "C" {
@@ -112,8 +112,9 @@ typedef enum MAV_TYPE
    MAV_TYPE_GPS=41, /* GPS | */
    MAV_TYPE_WINCH=42, /* Winch | */
    INTEGRATED_LORARTK=50, /* Integrated LORA|RTK device | */
-   STANDALONE_LORARTK=51, /* Standalone LORA|RTK device | */
-   MAV_TYPE_ENUM_END=52, /*  | */
+   STANDALONE_LORARTK_LAN=51, /* Standalone LORA|RTK device (LAN channel) | */
+   STANDALONE_LORARTK_WLAN=52, /* Standalone LORA|RTK device (WLAN channel) | */
+   MAV_TYPE_ENUM_END=53, /*  | */
 } MAV_TYPE;
 #endif
 

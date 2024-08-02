@@ -6853,10 +6853,12 @@ MAV_TYPE_WINCH = 42
 enums["MAV_TYPE"][42] = EnumEntry("MAV_TYPE_WINCH", """Winch""")
 INTEGRATED_LORARTK = 50
 enums["MAV_TYPE"][50] = EnumEntry("INTEGRATED_LORARTK", """Integrated LORA|RTK device""")
-STANDALONE_LORARTK = 51
-enums["MAV_TYPE"][51] = EnumEntry("STANDALONE_LORARTK", """Standalone LORA|RTK device""")
-MAV_TYPE_ENUM_END = 52
-enums["MAV_TYPE"][52] = EnumEntry("MAV_TYPE_ENUM_END", """""")
+STANDALONE_LORARTK_LAN = 51
+enums["MAV_TYPE"][51] = EnumEntry("STANDALONE_LORARTK_LAN", """Standalone LORA|RTK device (LAN channel)""")
+STANDALONE_LORARTK_WLAN = 52
+enums["MAV_TYPE"][52] = EnumEntry("STANDALONE_LORARTK_WLAN", """Standalone LORA|RTK device (WLAN channel)""")
+MAV_TYPE_ENUM_END = 53
+enums["MAV_TYPE"][53] = EnumEntry("MAV_TYPE_ENUM_END", """""")
 
 # MAV_MODE_FLAG
 enums["MAV_MODE_FLAG"] = {}

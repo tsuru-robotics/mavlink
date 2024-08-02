@@ -2598,7 +2598,8 @@ local enumEntryName = {
         [41] = "MAV_TYPE_GPS",
         [42] = "MAV_TYPE_WINCH",
         [50] = "INTEGRATED_LORARTK",
-        [51] = "STANDALONE_LORARTK",
+        [51] = "STANDALONE_LORARTK_LAN",
+        [52] = "STANDALONE_LORARTK_WLAN",
     },
     ["MAV_MODE_FLAG"] = {
         [1] = "MAV_MODE_FLAG_CUSTOM_MODE_ENABLED",
