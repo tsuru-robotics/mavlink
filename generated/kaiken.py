@@ -340,8 +340,12 @@ FMU_TM_FLAGS_ALT_GPS = 8
 enums["FMU_TM_FLAGS"][8] = EnumEntry("FMU_TM_FLAGS_ALT_GPS", """0x08 GPS height is being fused as a primary height reference.""")
 FMU_TM_FLAGS_PREARM_CHECK = 16
 enums["FMU_TM_FLAGS"][16] = EnumEntry("FMU_TM_FLAGS_PREARM_CHECK", """0x10 pre-arm check status. Always true when armed""")
-FMU_TM_FLAGS_ENUM_END = 17
-enums["FMU_TM_FLAGS"][17] = EnumEntry("FMU_TM_FLAGS_ENUM_END", """""")
+FMU_TM_FLAGS_MISSION_LOG_COMPRESSED = 32
+enums["FMU_TM_FLAGS"][32] = EnumEntry("FMU_TM_FLAGS_MISSION_LOG_COMPRESSED", """0x20 mission log compression status. True when compression finished.""")
+FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL = 64
+enums["FMU_TM_FLAGS"][64] = EnumEntry("FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL", """0x40 mission log compression status. True when compression failed.""")
+FMU_TM_FLAGS_ENUM_END = 65
+enums["FMU_TM_FLAGS"][65] = EnumEntry("FMU_TM_FLAGS_ENUM_END", """""")
 
 # FMU_COMPONENT_STATUS
 enums["FMU_COMPONENT_STATUS"] = {}
@@ -7110,7 +7114,7 @@ enums["MAV_COMPONENT"][251] = EnumEntry("MAV_COMPONENT_ENUM_END", """""")
 # message IDs
 MAVLINK_MSG_ID_BAD_DATA = -1
 MAVLINK_MSG_ID_UNKNOWN = -2
-MAVLINK_MSG_ID_FMU_TM = 11103
+MAVLINK_MSG_ID_FMU_TM = 11104
 MAVLINK_MSG_ID_PARAM_ACK_TRANSACTION = 19
 MAVLINK_MSG_ID_MISSION_CHECKSUM = 53
 MAVLINK_MSG_ID_AIRSPEED = 295
