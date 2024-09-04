@@ -69,6 +69,9 @@
       <entry value="128" name="FMU_FAILSAFE_FLAGS_PATH">
         <description>0x80 failsafe on path acceptance radius violation</description>
       </entry>
+      <entry value="256" name="FMU_FAILSAFE_FLAGS_LOW_POS_ACCURACY">
+        <description>0x160 failsafe on low postion accuracy</description>
+      </entry>
     </enum>
   </enums>
   <messages>
@@ -88,7 +91,7 @@
       <field type="uint8_t" name="flags" enum="FMU_TM_FLAGS" display="bitmask" print_format="0x%04x">Bitmap showing TM flags. Value of 0: not present. Value of 1: present.</field>
       <field type="uint8_t" name="component_present" enum="FMU_COMPONENT_STATUS" display="bitmask" print_format="0x%04x">Bitmap showing which onboard components are present. Value of 0: not present. Value of 1: present.</field>
       <field type="uint8_t" name="component_health" enum="FMU_COMPONENT_STATUS" display="bitmask" print_format="0x%04x">Bitmap showing which onboard components are operational. Value of 0: not present. Value of 1: present.</field>
-      <field type="uint8_t" name="failsafe_flags" enum="FMU_FAILSAFE_FLAGS" display="bitmask" print_format="0x%04x">Bitmap specifies detected failsafe. Value of 0: not present. Value of 1: present.</field>
+      <field type="uint16_t" name="failsafe_flags" enum="FMU_FAILSAFE_FLAGS" display="bitmask" print_format="0x%04x">Bitmap specifies detected failsafe. Value of 0: not present. Value of 1: present.</field>
       <field type="uint16_t" name="voltage_battery" units="mV" invalid="UINT16_MAX">Battery voltage, UINT16_MAX: Voltage not sent by autopilot</field>
       <field type="int16_t" name="current_battery" units="cA" invalid="-1">Battery current, -1: Current not sent by autopilot</field>
       <field type="int8_t" name="battery_remaining" units="%" invalid="-1">Battery energy remaining, -1: Battery remaining energy not sent by autopilot</field>
