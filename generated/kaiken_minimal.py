@@ -382,8 +382,10 @@ FMU_FAILSAFE_FLAGS_HARDFENCE = 64
 enums["FMU_FAILSAFE_FLAGS"][64] = EnumEntry("FMU_FAILSAFE_FLAGS_HARDFENCE", """0x40 failsafe on hardfence violation""")
 FMU_FAILSAFE_FLAGS_PATH = 128
 enums["FMU_FAILSAFE_FLAGS"][128] = EnumEntry("FMU_FAILSAFE_FLAGS_PATH", """0x80 failsafe on path acceptance radius violation""")
-FMU_FAILSAFE_FLAGS_ENUM_END = 129
-enums["FMU_FAILSAFE_FLAGS"][129] = EnumEntry("FMU_FAILSAFE_FLAGS_ENUM_END", """""")
+FMU_FAILSAFE_FLAGS_LOW_POS_ACCURACY = 256
+enums["FMU_FAILSAFE_FLAGS"][256] = EnumEntry("FMU_FAILSAFE_FLAGS_LOW_POS_ACCURACY", """0x160 failsafe on low postion accuracy""")
+FMU_FAILSAFE_FLAGS_ENUM_END = 257
+enums["FMU_FAILSAFE_FLAGS"][257] = EnumEntry("FMU_FAILSAFE_FLAGS_ENUM_END", """""")
 
 # WIFI_NETWORK_SECURITY
 enums["WIFI_NETWORK_SECURITY"] = {}
@@ -7434,17 +7436,17 @@ class MAVLink_fmu_tm_message(MAVLink_message):
     id = MAVLINK_MSG_ID_FMU_TM
     msgname = "FMU_TM"
     fieldnames = ["time", "satellites_visible", "fix_type", "hdg", "lat", "lon", "alt", "flight_state", "rtcm_rate_wifi", "rtcm_rate_lora", "flags", "component_present", "component_health", "failsafe_flags", "voltage_battery", "current_battery", "battery_remaining"]
-    ordered_fieldnames = ["time", "lat", "lon", "alt", "hdg", "voltage_battery", "current_battery", "satellites_visible", "fix_type", "flight_state", "rtcm_rate_wifi", "rtcm_rate_lora", "flags", "component_present", "component_health", "failsafe_flags", "battery_remaining"]
-    fieldtypes = ["uint64_t", "uint8_t", "uint8_t", "uint16_t", "int32_t", "int32_t", "int32_t", "uint8_t", "uint8_t", "uint8_t", "uint8_t", "uint8_t", "uint8_t", "uint8_t", "uint16_t", "int16_t", "int8_t"]
+    ordered_fieldnames = ["time", "lat", "lon", "alt", "hdg", "failsafe_flags", "voltage_battery", "current_battery", "satellites_visible", "fix_type", "flight_state", "rtcm_rate_wifi", "rtcm_rate_lora", "flags", "component_present", "component_health", "battery_remaining"]
+    fieldtypes = ["uint64_t", "uint8_t", "uint8_t", "uint16_t", "int32_t", "int32_t", "int32_t", "uint8_t", "uint8_t", "uint8_t", "uint8_t", "uint8_t", "uint8_t", "uint16_t", "uint16_t", "int16_t", "int8_t"]
     fielddisplays_by_name: Dict[str, str] = {"flags": "bitmask", "component_present": "bitmask", "component_health": "bitmask", "failsafe_flags": "bitmask"}
     fieldenums_by_name: Dict[str, str] = {"fix_type": "GPS_FIX_TYPE", "flight_state": "UTM_FLIGHT_STATE", "flags": "FMU_TM_FLAGS", "component_present": "FMU_COMPONENT_STATUS", "component_health": "FMU_COMPONENT_STATUS", "failsafe_flags": "FMU_FAILSAFE_FLAGS"}
     fieldunits_by_name: Dict[str, str] = {"time": "us", "hdg": "cdeg", "lat": "degE7", "lon": "degE7", "alt": "mm", "rtcm_rate_wifi": "HzE2", "rtcm_rate_lora": "HzE2", "voltage_battery": "mV", "current_battery": "cA", "battery_remaining": "%"}
-    native_format = bytearray(b"<QiiiHHhBBBBBBBBBb")
-    orders = [0, 7, 8, 4, 1, 2, 3, 9, 10, 11, 12, 13, 14, 15, 5, 6, 16]
+    native_format = bytearray(b"<QiiiHHHhBBBBBBBBb")
+    orders = [0, 8, 9, 4, 1, 2, 3, 10, 11, 12, 13, 14, 15, 5, 6, 7, 16]
     lengths = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     array_lengths = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     crc_extra = 0
-    unpacker = struct.Struct("<QiiiHHhBBBBBBBBBb")
+    unpacker = struct.Struct("<QiiiHHHhBBBBBBBBb")
     instance_field = None
     instance_offset = -1
 
@@ -7472,7 +7474,7 @@ class MAVLink_fmu_tm_message(MAVLink_message):
         self.battery_remaining = battery_remaining
 
     def pack(self, mav: "MAVLink", force_mavlink1: bool = False) -> bytes:
-        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.time, self.lat, self.lon, self.alt, self.hdg, self.voltage_battery, self.current_battery, self.satellites_visible, self.fix_type, self.flight_state, self.rtcm_rate_wifi, self.rtcm_rate_lora, self.flags, self.component_present, self.component_health, self.failsafe_flags, self.battery_remaining), force_mavlink1=force_mavlink1)
+        return self._pack(mav, self.crc_extra, self.unpacker.pack(self.time, self.lat, self.lon, self.alt, self.hdg, self.failsafe_flags, self.voltage_battery, self.current_battery, self.satellites_visible, self.fix_type, self.flight_state, self.rtcm_rate_wifi, self.rtcm_rate_lora, self.flags, self.component_present, self.component_health, self.battery_remaining), force_mavlink1=force_mavlink1)
 
 
 # Define name on the class for backwards compatibility (it is now msgname).
@@ -9178,7 +9180,7 @@ class MAVLink(object):
         flags                     : Bitmap showing TM flags. Value of 0: not present. Value of 1: present. (type:uint8_t, values:FMU_TM_FLAGS)
         component_present         : Bitmap showing which onboard components are present. Value of 0: not present. Value of 1: present. (type:uint8_t, values:FMU_COMPONENT_STATUS)
         component_health          : Bitmap showing which onboard components are operational. Value of 0: not present. Value of 1: present. (type:uint8_t, values:FMU_COMPONENT_STATUS)
-        failsafe_flags            : Bitmap specifies detected failsafe. Value of 0: not present. Value of 1: present. (type:uint8_t, values:FMU_FAILSAFE_FLAGS)
+        failsafe_flags            : Bitmap specifies detected failsafe. Value of 0: not present. Value of 1: present. (type:uint16_t, values:FMU_FAILSAFE_FLAGS)
         voltage_battery           : Battery voltage, UINT16_MAX: Voltage not sent by autopilot [mV] (type:uint16_t)
         current_battery           : Battery current, -1: Current not sent by autopilot [cA] (type:int16_t)
         battery_remaining         : Battery energy remaining, -1: Battery remaining energy not sent by autopilot [%] (type:int8_t)
@@ -9203,7 +9205,7 @@ class MAVLink(object):
         flags                     : Bitmap showing TM flags. Value of 0: not present. Value of 1: present. (type:uint8_t, values:FMU_TM_FLAGS)
         component_present         : Bitmap showing which onboard components are present. Value of 0: not present. Value of 1: present. (type:uint8_t, values:FMU_COMPONENT_STATUS)
         component_health          : Bitmap showing which onboard components are operational. Value of 0: not present. Value of 1: present. (type:uint8_t, values:FMU_COMPONENT_STATUS)
-        failsafe_flags            : Bitmap specifies detected failsafe. Value of 0: not present. Value of 1: present. (type:uint8_t, values:FMU_FAILSAFE_FLAGS)
+        failsafe_flags            : Bitmap specifies detected failsafe. Value of 0: not present. Value of 1: present. (type:uint16_t, values:FMU_FAILSAFE_FLAGS)
         voltage_battery           : Battery voltage, UINT16_MAX: Voltage not sent by autopilot [mV] (type:uint16_t)
         current_battery           : Battery current, -1: Current not sent by autopilot [cA] (type:int16_t)
         battery_remaining         : Battery energy remaining, -1: Battery remaining energy not sent by autopilot [%] (type:int8_t)
