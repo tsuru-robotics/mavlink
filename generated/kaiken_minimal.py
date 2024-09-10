@@ -344,8 +344,10 @@ FMU_TM_FLAGS_MISSION_LOG_COMPRESSED = 32
 enums["FMU_TM_FLAGS"][32] = EnumEntry("FMU_TM_FLAGS_MISSION_LOG_COMPRESSED", """0x20 mission log compression status. True when compression finished.""")
 FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL = 64
 enums["FMU_TM_FLAGS"][64] = EnumEntry("FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL", """0x40 mission log compression status. True when compression failed.""")
-FMU_TM_FLAGS_ENUM_END = 65
-enums["FMU_TM_FLAGS"][65] = EnumEntry("FMU_TM_FLAGS_ENUM_END", """""")
+FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS = 128
+enums["FMU_TM_FLAGS"][128] = EnumEntry("FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS", """0x80 mission log compression status. True when compression is in progress.""")
+FMU_TM_FLAGS_ENUM_END = 129
+enums["FMU_TM_FLAGS"][129] = EnumEntry("FMU_TM_FLAGS_ENUM_END", """""")
 
 # FMU_COMPONENT_STATUS
 enums["FMU_COMPONENT_STATUS"] = {}

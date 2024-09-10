@@ -360,6 +360,7 @@ local enumEntryName = {
         [16] = "FMU_TM_FLAGS_PREARM_CHECK",
         [32] = "FMU_TM_FLAGS_MISSION_LOG_COMPRESSED",
         [64] = "FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL",
+        [128] = "FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS",
     },
     ["FMU_COMPONENT_STATUS"] = {
         [1] = "FMU_COMPONENT_STATUS_GYRO",
@@ -3685,6 +3686,7 @@ f.FMU_TM_flags_flagFMU_TM_FLAGS_ALT_GPS = ProtoField.bool("mavlink_proto.FMU_TM_
 f.FMU_TM_flags_flagFMU_TM_FLAGS_PREARM_CHECK = ProtoField.bool("mavlink_proto.FMU_TM_flags.FMU_TM_FLAGS_PREARM_CHECK", "FMU_TM_FLAGS_PREARM_CHECK", 8, nil, 16)
 f.FMU_TM_flags_flagFMU_TM_FLAGS_MISSION_LOG_COMPRESSED = ProtoField.bool("mavlink_proto.FMU_TM_flags.FMU_TM_FLAGS_MISSION_LOG_COMPRESSED", "FMU_TM_FLAGS_MISSION_LOG_COMPRESSED", 8, nil, 32)
 f.FMU_TM_flags_flagFMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL = ProtoField.bool("mavlink_proto.FMU_TM_flags.FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL", "FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL", 8, nil, 64)
+f.FMU_TM_flags_flagFMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS = ProtoField.bool("mavlink_proto.FMU_TM_flags.FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS", "FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS", 8, nil, 128)
 f.FMU_TM_component_present = ProtoField.new("component_present (FMU_COMPONENT_STATUS)", "mavlink_proto.FMU_TM_component_present", ftypes.UINT8, nil, base.HEX_DEC)
 f.FMU_TM_component_present_flagFMU_COMPONENT_STATUS_GYRO = ProtoField.bool("mavlink_proto.FMU_TM_component_present.FMU_COMPONENT_STATUS_GYRO", "FMU_COMPONENT_STATUS_GYRO", 8, nil, 1)
 f.FMU_TM_component_present_flagFMU_COMPONENT_STATUS_ACCEL = ProtoField.bool("mavlink_proto.FMU_TM_component_present.FMU_COMPONENT_STATUS_ACCEL", "FMU_COMPONENT_STATUS_ACCEL", 8, nil, 2)
@@ -11324,6 +11326,7 @@ function dissect_flags_FMU_TM_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagFMU_TM_FLAGS_PREARM_CHECK"], tvbrange, value)
     tree:add_le(f[name .. "_flagFMU_TM_FLAGS_MISSION_LOG_COMPRESSED"], tvbrange, value)
     tree:add_le(f[name .. "_flagFMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL"], tvbrange, value)
+    tree:add_le(f[name .. "_flagFMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_FMU_COMPONENT_STATUS(tree, name, tvbrange, value)

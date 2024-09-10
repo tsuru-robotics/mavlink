@@ -27,6 +27,9 @@
       <entry value="64" name="FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL">
         <description>0x40 mission log compression status. True when compression failed.</description>
       </entry>
+      <entry value="128" name="FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS">
+        <description>0x80 mission log compression status. True when compression is in progress.</description>
+      </entry>
     </enum>
     <enum name="FMU_COMPONENT_STATUS" bitmask="true">
       <description>These encode the sensors whose status is sent as part of the FMU_TM message.</description>
