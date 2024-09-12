@@ -21,6 +21,15 @@
       <entry value="16" name="FMU_TM_FLAGS_PREARM_CHECK">
         <description>0x10 pre-arm check status. Always true when armed</description>
       </entry>
+      <entry value="32" name="FMU_TM_FLAGS_MISSION_LOG_COMPRESSED">
+        <description>0x20 mission log compression status. True when compression finished.</description>
+      </entry>
+      <entry value="64" name="FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL">
+        <description>0x40 mission log compression status. True when compression failed.</description>
+      </entry>
+      <entry value="128" name="FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS">
+        <description>0x80 mission log compression status. True when compression is in progress.</description>
+      </entry>
     </enum>
     <enum name="FMU_COMPONENT_STATUS" bitmask="true">
       <description>These encode the sensors whose status is sent as part of the FMU_TM message.</description>
@@ -76,7 +85,7 @@
   </enums>
   <messages>
     <!-- Messages specifically designated for the Kaiken autopilot -->
-    <message id="11103" name="FMU_TM">
+    <message id="11104" name="FMU_TM">
       <description>Kaiken FMU telemetry.</description>
       <field type="uint64_t" name="time" units="us">Time of applicability of position (microseconds since UNIX epoch).</field>
       <field type="uint8_t" name="satellites_visible">Number of satellites visible. If unknown, set to UINT8_MAX.</field>

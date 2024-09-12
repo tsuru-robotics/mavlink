@@ -60,6 +60,27 @@
      </td>
      <td>0x10 pre-arm check status. Always true when armed</td>
     </tr>
+    <tr id="FMU_TM_FLAGS_MISSION_LOG_COMPRESSED">
+     <td>32</td>
+     <td>
+      <a href="#FMU_TM_FLAGS_MISSION_LOG_COMPRESSED">FMU_TM_FLAGS_MISSION_LOG_COMPRESSED</a>
+     </td>
+     <td>0x20 mission log compression status. True when compression finished.</td>
+    </tr>
+    <tr id="FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL">
+     <td>64</td>
+     <td>
+      <a href="#FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL">FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL</a>
+     </td>
+     <td>0x40 mission log compression status. True when compression failed.</td>
+    </tr>
+    <tr id="FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS">
+     <td>128</td>
+     <td>
+      <a href="#FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS">FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS</a>
+     </td>
+     <td>0x80 mission log compression status. True when compression is in progress.</td>
+    </tr>
    </tbody>
   </table>
   <h3 id="FMU_COMPONENT_STATUS">FMU_COMPONENT_STATUS</h3>
@@ -209,7 +230,7 @@
   </blockquote>
   <h2 id="messages">MAVLink Messages</h2>
   <h3 id="FMU_TM">FMU_TM (<a href="#FMU_TM">
-    #11103
+    #11104
    </a>
    )
   </h3>
