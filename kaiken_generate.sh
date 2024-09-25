@@ -48,6 +48,7 @@ echo "Generated lightweight dialect generated/kaiken_minimal.py"
 python -m pymavlink.tools.mavgen --lang=WLua --wire-protocol=2.0 --output=generated/mavlink_kaiken_v2 message_definitions/v1.0/kaiken.xml
 
 # Add trusted UDP ports
+sed -i -e '$a\''udp_dissector_table:add(14560, mavlink_proto)' generated/mavlink_kaiken_v2.lua
 sed -i -e '$a\''udp_dissector_table:add(14650, mavlink_proto)' generated/mavlink_kaiken_v2.lua
 sed -i -e '$a\''udp_dissector_table:add(15550, mavlink_proto)' generated/mavlink_kaiken_v2.lua
 sed -i -e '$a\''udp_dissector_table:add(17550, mavlink_proto)' generated/mavlink_kaiken_v2.lua
