@@ -39,7 +39,7 @@ protocolVersions = {
 }
 
 messageName = {
-    [11103] = 'FMU_TM',
+    [11104] = 'FMU_TM',
     [11200] = 'RTK_TM',
     [19] = 'PARAM_ACK_TRANSACTION',
     [53] = 'MISSION_CHECKSUM',
@@ -359,6 +359,9 @@ local enumEntryName = {
         [4] = "FMU_TM_FLAGS_ALT_VALID",
         [8] = "FMU_TM_FLAGS_ALT_GPS",
         [16] = "FMU_TM_FLAGS_PREARM_CHECK",
+        [32] = "FMU_TM_FLAGS_MISSION_LOG_COMPRESSED",
+        [64] = "FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL",
+        [128] = "FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS",
     },
     ["FMU_COMPONENT_STATUS"] = {
         [1] = "FMU_COMPONENT_STATUS_GYRO",
@@ -377,6 +380,7 @@ local enumEntryName = {
         [32] = "FMU_FAILSAFE_FLAGS_SOFTFENCE",
         [64] = "FMU_FAILSAFE_FLAGS_HARDFENCE",
         [128] = "FMU_FAILSAFE_FLAGS_PATH",
+        [256] = "FMU_FAILSAFE_FLAGS_LOW_POS_ACCURACY",
     },
     ["RTK_FIX_TYPE"] = {
         [0] = "RTK_FIX_TYPE_NOFIX",
@@ -3725,6 +3729,9 @@ f.FMU_TM_flags_flagFMU_TM_FLAGS_POS_VALID = ProtoField.bool("mavlink_proto.FMU_T
 f.FMU_TM_flags_flagFMU_TM_FLAGS_ALT_VALID = ProtoField.bool("mavlink_proto.FMU_TM_flags.FMU_TM_FLAGS_ALT_VALID", "FMU_TM_FLAGS_ALT_VALID", 8, nil, 4)
 f.FMU_TM_flags_flagFMU_TM_FLAGS_ALT_GPS = ProtoField.bool("mavlink_proto.FMU_TM_flags.FMU_TM_FLAGS_ALT_GPS", "FMU_TM_FLAGS_ALT_GPS", 8, nil, 8)
 f.FMU_TM_flags_flagFMU_TM_FLAGS_PREARM_CHECK = ProtoField.bool("mavlink_proto.FMU_TM_flags.FMU_TM_FLAGS_PREARM_CHECK", "FMU_TM_FLAGS_PREARM_CHECK", 8, nil, 16)
+f.FMU_TM_flags_flagFMU_TM_FLAGS_MISSION_LOG_COMPRESSED = ProtoField.bool("mavlink_proto.FMU_TM_flags.FMU_TM_FLAGS_MISSION_LOG_COMPRESSED", "FMU_TM_FLAGS_MISSION_LOG_COMPRESSED", 8, nil, 32)
+f.FMU_TM_flags_flagFMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL = ProtoField.bool("mavlink_proto.FMU_TM_flags.FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL", "FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL", 8, nil, 64)
+f.FMU_TM_flags_flagFMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS = ProtoField.bool("mavlink_proto.FMU_TM_flags.FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS", "FMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS", 8, nil, 128)
 f.FMU_TM_component_present = ProtoField.new("component_present (FMU_COMPONENT_STATUS)", "mavlink_proto.FMU_TM_component_present", ftypes.UINT8, nil, base.HEX_DEC)
 f.FMU_TM_component_present_flagFMU_COMPONENT_STATUS_GYRO = ProtoField.bool("mavlink_proto.FMU_TM_component_present.FMU_COMPONENT_STATUS_GYRO", "FMU_COMPONENT_STATUS_GYRO", 8, nil, 1)
 f.FMU_TM_component_present_flagFMU_COMPONENT_STATUS_ACCEL = ProtoField.bool("mavlink_proto.FMU_TM_component_present.FMU_COMPONENT_STATUS_ACCEL", "FMU_COMPONENT_STATUS_ACCEL", 8, nil, 2)
@@ -3739,15 +3746,16 @@ f.FMU_TM_component_health_flagFMU_COMPONENT_STATUS_MAG = ProtoField.bool("mavlin
 f.FMU_TM_component_health_flagFMU_COMPONENT_STATUS_BARO = ProtoField.bool("mavlink_proto.FMU_TM_component_health.FMU_COMPONENT_STATUS_BARO", "FMU_COMPONENT_STATUS_BARO", 8, nil, 8)
 f.FMU_TM_component_health_flagFMU_COMPONENT_STATUS_GPS = ProtoField.bool("mavlink_proto.FMU_TM_component_health.FMU_COMPONENT_STATUS_GPS", "FMU_COMPONENT_STATUS_GPS", 8, nil, 16)
 f.FMU_TM_component_health_flagFMU_COMPONENT_STATUS_BATTERY = ProtoField.bool("mavlink_proto.FMU_TM_component_health.FMU_COMPONENT_STATUS_BATTERY", "FMU_COMPONENT_STATUS_BATTERY", 8, nil, 32)
-f.FMU_TM_failsafe_flags = ProtoField.new("failsafe_flags (FMU_FAILSAFE_FLAGS)", "mavlink_proto.FMU_TM_failsafe_flags", ftypes.UINT8, nil, base.HEX_DEC)
-f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_ACTION = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_ACTION", "FMU_FAILSAFE_FLAGS_ACTION", 8, nil, 1)
-f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_BATTERY = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_BATTERY", "FMU_FAILSAFE_FLAGS_BATTERY", 8, nil, 2)
-f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_CRITICAL_ATTITUDE = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_CRITICAL_ATTITUDE", "FMU_FAILSAFE_FLAGS_CRITICAL_ATTITUDE", 8, nil, 4)
-f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_OFFBOARD_LOSS = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_OFFBOARD_LOSS", "FMU_FAILSAFE_FLAGS_OFFBOARD_LOSS", 8, nil, 8)
-f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_POSITION_LOSS = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_POSITION_LOSS", "FMU_FAILSAFE_FLAGS_POSITION_LOSS", 8, nil, 16)
-f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_SOFTFENCE = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_SOFTFENCE", "FMU_FAILSAFE_FLAGS_SOFTFENCE", 8, nil, 32)
-f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_HARDFENCE = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_HARDFENCE", "FMU_FAILSAFE_FLAGS_HARDFENCE", 8, nil, 64)
-f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_PATH = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_PATH", "FMU_FAILSAFE_FLAGS_PATH", 8, nil, 128)
+f.FMU_TM_failsafe_flags = ProtoField.new("failsafe_flags (FMU_FAILSAFE_FLAGS)", "mavlink_proto.FMU_TM_failsafe_flags", ftypes.UINT16, nil, base.HEX_DEC)
+f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_ACTION = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_ACTION", "FMU_FAILSAFE_FLAGS_ACTION", 12, nil, 1)
+f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_BATTERY = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_BATTERY", "FMU_FAILSAFE_FLAGS_BATTERY", 12, nil, 2)
+f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_CRITICAL_ATTITUDE = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_CRITICAL_ATTITUDE", "FMU_FAILSAFE_FLAGS_CRITICAL_ATTITUDE", 12, nil, 4)
+f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_OFFBOARD_LOSS = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_OFFBOARD_LOSS", "FMU_FAILSAFE_FLAGS_OFFBOARD_LOSS", 12, nil, 8)
+f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_POSITION_LOSS = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_POSITION_LOSS", "FMU_FAILSAFE_FLAGS_POSITION_LOSS", 12, nil, 16)
+f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_SOFTFENCE = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_SOFTFENCE", "FMU_FAILSAFE_FLAGS_SOFTFENCE", 12, nil, 32)
+f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_HARDFENCE = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_HARDFENCE", "FMU_FAILSAFE_FLAGS_HARDFENCE", 12, nil, 64)
+f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_PATH = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_PATH", "FMU_FAILSAFE_FLAGS_PATH", 12, nil, 128)
+f.FMU_TM_failsafe_flags_flagFMU_FAILSAFE_FLAGS_LOW_POS_ACCURACY = ProtoField.bool("mavlink_proto.FMU_TM_failsafe_flags.FMU_FAILSAFE_FLAGS_LOW_POS_ACCURACY", "FMU_FAILSAFE_FLAGS_LOW_POS_ACCURACY", 12, nil, 256)
 f.FMU_TM_voltage_battery = ProtoField.new("voltage_battery (uint16_t) [mV]", "mavlink_proto.FMU_TM_voltage_battery", ftypes.UINT16, nil)
 f.FMU_TM_current_battery = ProtoField.new("current_battery (int16_t) [cA]", "mavlink_proto.FMU_TM_current_battery", ftypes.INT16, nil)
 f.FMU_TM_battery_remaining = ProtoField.new("battery_remaining (int8_t) [%]", "mavlink_proto.FMU_TM_battery_remaining", ftypes.INT8, nil)
@@ -11417,6 +11425,9 @@ function dissect_flags_FMU_TM_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagFMU_TM_FLAGS_ALT_VALID"], tvbrange, value)
     tree:add_le(f[name .. "_flagFMU_TM_FLAGS_ALT_GPS"], tvbrange, value)
     tree:add_le(f[name .. "_flagFMU_TM_FLAGS_PREARM_CHECK"], tvbrange, value)
+    tree:add_le(f[name .. "_flagFMU_TM_FLAGS_MISSION_LOG_COMPRESSED"], tvbrange, value)
+    tree:add_le(f[name .. "_flagFMU_TM_FLAGS_MISSION_LOG_COMPRESSION_FAIL"], tvbrange, value)
+    tree:add_le(f[name .. "_flagFMU_TM_FLAGS_MISSION_LOG_COMPRESSION_IN_PROGRESS"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_FMU_COMPONENT_STATUS(tree, name, tvbrange, value)
@@ -11437,6 +11448,7 @@ function dissect_flags_FMU_FAILSAFE_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagFMU_FAILSAFE_FLAGS_SOFTFENCE"], tvbrange, value)
     tree:add_le(f[name .. "_flagFMU_FAILSAFE_FLAGS_HARDFENCE"], tvbrange, value)
     tree:add_le(f[name .. "_flagFMU_FAILSAFE_FLAGS_PATH"], tvbrange, value)
+    tree:add_le(f[name .. "_flagFMU_FAILSAFE_FLAGS_LOW_POS_ACCURACY"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_RTK_GNSS_FLAGS(tree, name, tvbrange, value)
@@ -11975,11 +11987,11 @@ function dissect_flags_MAV_MODE_FLAG_DECODE_POSITION(tree, name, tvbrange, value
     tree:add_le(f[name .. "_flagMAV_MODE_FLAG_DECODE_POSITION_SAFETY"], tvbrange, value)
 end
 -- dissect payload of message type FMU_TM
-function payload_fns.payload_11103(buffer, tree, msgid, offset, limit, pinfo)
+function payload_fns.payload_11104(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 36 > limit) then
+    if (offset + 37 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 36)
+        padded:set_size(offset + 37)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -11988,10 +12000,10 @@ function payload_fns.payload_11103(buffer, tree, msgid, offset, limit, pinfo)
     value = tvbrange:le_uint64()
     subtree = tree:add_le(f.FMU_TM_time, tvbrange, value)
     subtree:append_text(time_usec_decode(value))
-    tvbrange = padded(offset + 26, 1)
+    tvbrange = padded(offset + 28, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.FMU_TM_satellites_visible, tvbrange, value)
-    tvbrange = padded(offset + 27, 1)
+    tvbrange = padded(offset + 29, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.FMU_TM_fix_type, tvbrange, value)
     tvbrange = padded(offset + 20, 2)
@@ -12008,38 +12020,38 @@ function payload_fns.payload_11103(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.FMU_TM_alt, tvbrange, value)
-    tvbrange = padded(offset + 28, 1)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.FMU_TM_flight_state, tvbrange, value)
-    tvbrange = padded(offset + 29, 1)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.FMU_TM_rtcm_rate_wifi, tvbrange, value)
     tvbrange = padded(offset + 30, 1)
     value = tvbrange:le_uint()
-    subtree = tree:add_le(f.FMU_TM_rtcm_rate_lora, tvbrange, value)
+    subtree = tree:add_le(f.FMU_TM_flight_state, tvbrange, value)
     tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.FMU_TM_rtcm_rate_wifi, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.FMU_TM_rtcm_rate_lora, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.FMU_TM_flags, tvbrange, value)
     dissect_flags_FMU_TM_FLAGS(subtree, "FMU_TM_flags", tvbrange, value)
-    tvbrange = padded(offset + 32, 1)
+    tvbrange = padded(offset + 34, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.FMU_TM_component_present, tvbrange, value)
     dissect_flags_FMU_COMPONENT_STATUS(subtree, "FMU_TM_component_present", tvbrange, value)
-    tvbrange = padded(offset + 33, 1)
+    tvbrange = padded(offset + 35, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.FMU_TM_component_health, tvbrange, value)
     dissect_flags_FMU_COMPONENT_STATUS(subtree, "FMU_TM_component_health", tvbrange, value)
-    tvbrange = padded(offset + 34, 1)
+    tvbrange = padded(offset + 22, 2)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.FMU_TM_failsafe_flags, tvbrange, value)
     dissect_flags_FMU_FAILSAFE_FLAGS(subtree, "FMU_TM_failsafe_flags", tvbrange, value)
-    tvbrange = padded(offset + 22, 2)
+    tvbrange = padded(offset + 24, 2)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.FMU_TM_voltage_battery, tvbrange, value)
-    tvbrange = padded(offset + 24, 2)
+    tvbrange = padded(offset + 26, 2)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.FMU_TM_current_battery, tvbrange, value)
-    tvbrange = padded(offset + 35, 1)
+    tvbrange = padded(offset + 36, 1)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.FMU_TM_battery_remaining, tvbrange, value)
 end

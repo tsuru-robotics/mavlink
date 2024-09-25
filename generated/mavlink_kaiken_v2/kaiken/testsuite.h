@@ -40,7 +40,7 @@ static void mavlink_test_fmu_tm(uint8_t system_id, uint8_t component_id, mavlink
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
     mavlink_fmu_tm_t packet_in = {
-        93372036854775807ULL,963497880,963498088,963498296,18275,18379,18483,211,22,89,156,223,34,101,168,235,46
+        93372036854775807ULL,963497880,963498088,963498296,18275,18379,18483,18587,89,156,223,34,101,168,235,46,113
     };
     mavlink_fmu_tm_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
@@ -49,6 +49,7 @@ static void mavlink_test_fmu_tm(uint8_t system_id, uint8_t component_id, mavlink
         packet1.lon = packet_in.lon;
         packet1.alt = packet_in.alt;
         packet1.hdg = packet_in.hdg;
+        packet1.failsafe_flags = packet_in.failsafe_flags;
         packet1.voltage_battery = packet_in.voltage_battery;
         packet1.current_battery = packet_in.current_battery;
         packet1.satellites_visible = packet_in.satellites_visible;
@@ -59,7 +60,6 @@ static void mavlink_test_fmu_tm(uint8_t system_id, uint8_t component_id, mavlink
         packet1.flags = packet_in.flags;
         packet1.component_present = packet_in.component_present;
         packet1.component_health = packet_in.component_health;
-        packet1.failsafe_flags = packet_in.failsafe_flags;
         packet1.battery_remaining = packet_in.battery_remaining;
         
         
